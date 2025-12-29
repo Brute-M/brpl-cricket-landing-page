@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Clock } from 'lucide-react';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -16,14 +16,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // const navLinks = [
-  //   { name: 'Home', href: '#' },
-  //   { name: 'Programs', href: '#features' },
-  //   { name: 'Statistics', href: '#stats' },
-  //   { name: 'Testimonials', href: '#testimonials' },
-  //   { name: 'Register', href: '#registration' },
-  // ];
-
   const scrollToSection = (href: string) => {
     if (href === '#') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,14 +28,52 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Top Registration Ticker */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black overflow-hidden">
+        <motion.div
+          className="flex items-center gap-8 py-2 whitespace-nowrap"
+          animate={{ x: [0, -1000] }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 20,
+              ease: "linear",
+            },
+          }}
+        >
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex items-center gap-8">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                <span className="font-black italic uppercase text-sm tracking-wider">
+                  Registration Closing Soon - Limited Slots Available
+                </span>
+              </div>
+              <span className="text-sm font-bold">•</span>
+              <span className="font-black italic uppercase text-sm tracking-wider">
+                Early Bird Offer Ends Dec 31st
+              </span>
+              <span className="text-sm font-bold">•</span>
+              <span className="font-black italic uppercase text-sm tracking-wider">
+                Secure Your Spot Today!
+              </span>
+              <span className="text-sm font-bold">•</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Main Navbar */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-3' : 'py-6'
+        className={`fixed top-8 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? 'glass py-3' : 'py-6'
           }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="container mx-auto px-4">
+        {/* Container Fluid - Full Width */}
+        <div className="w-full px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <button
@@ -55,35 +85,18 @@ const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="BRPL logo"
-                className="h-16 w-auto object-contain"
+                className="h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(250,204,21,0.3)]"
               />
-              {/* <span className="hidden sm:block font-display text-xl font-bold tracking-wide text-foreground">
-                BRPL
-              </span> */}
             </button>
-
-            {/* Desktop Nav */}
-            {/* <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className={`text-sm font-semibold transition-colors ${
-                    isScrolled ? 'text-foreground/80 hover:text-primary' : 'text-white/90 hover:text-white'
-                  }`}
-                >
-                  {link.name}
-                </button>
-              ))}
-            </div> */}
 
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={() => scrollToSection('#registration')}
-                className="px-6 py-2 bg-primary text-white font-display font-semibold rounded-lg border-2 border-white/20 hover:bg-primary/90 hover:border-white/40 transition-all shadow-lg"
+                className="px-6 py-2 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group border-none"
               >
-                Register Now
+                <span className="relative z-10">Register Now</span>
+                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </button>
             </div>
 
@@ -102,35 +115,22 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 glass pt-24 md:hidden"
+            className="fixed inset-0 z-30 glass pt-32 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="container mx-auto px-4">
+            <div className="w-full px-4">
               <div className="flex flex-col gap-6">
-                {/* {navLinks.map((link, index) => (
-                  <motion.button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-xl font-display font-semibold text-foreground/80 hover:text-primary transition-colors text-left"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {link.name}
-                  </motion.button>
-                ))} */}
-
                 <motion.button
                   onClick={() => scrollToSection('#registration')}
-                  className="mt-4 px-6 py-3 bg-[#263574] text-white font-display font-semibold rounded-lg border-2 border-white/20 shadow-lg relative overflow-hidden group"
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.3)] uppercase tracking-wider relative overflow-hidden group"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
                 >
                   <span className="relative z-10">Register Now</span>
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 </motion.button>
               </div>
             </div>

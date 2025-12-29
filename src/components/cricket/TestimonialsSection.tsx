@@ -3,91 +3,101 @@ import { Quote, Star } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "This academy transformed my game completely. The coaches here understand cricket at a different level.",
-    name: "Rahul Sharma",
-    role: "National Team Player",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    quote: "I was just another college cricketer. After BRPL zone trials, I got selected for my state team. This tournament changed my life.",
+    name: "Rahul M.",
+    zone: "Mumbai Zone",
+    // image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
   {
-    quote: "From a club player to state level in just 2 years. The training methodology is world-class.",
-    name: "Priya Patel",
-    role: "State Champion",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+    quote: "₹1,499 was the best investment I ever made. The exposure alone was worth 100x that.",
+    name: "Priya S.",
+    zone: "Delhi Zone",
+    // image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
   {
-    quote: "The video analysis and personalized feedback helped me fix my batting technique permanently.",
-    name: "Arjun Kumar",
-    role: "IPL Player",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    quote: "My parents finally saw me play in a real stadium. That moment was priceless.",
+    name: "Arjun K.",
+    zone: "Bangalore Zone",
+    // image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
 ];
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl" />
-      </div>
-
+    <section className="py-24 bg-white relative overflow-hidden border-y border-gray-100">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold tracking-wider uppercase bg-accent/20 border border-accent/40 rounded-full text-accent">
-            Success Stories
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            What Our <span className="gradient-text">Champions</span> Say
+          <h2 className="text-4xl md:text-6xl font-black italic text-[#263574] leading-tight uppercase tracking-tight">
+            Lives Changed by <span className="text-[#FACC15] drop-shadow-sm">BRPL</span>
           </h2>
+          <div className="w-24 h-1.5 bg-[#FACC15] mx-auto mt-6 rounded-full" />
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
-              className="glass rounded-2xl p-6 relative"
+              className="bg-gray-50 rounded-3xl p-8 relative shadow-xl hover:shadow-2xl transition-all group border border-gray-100"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
+              whileHover={{ y: -10 }}
             >
-              <Quote className="absolute top-6 right-6 w-8 h-8 text-primary/30" />
-              
-              <div className="flex gap-1 mb-4">
+              <div className="absolute -top-5 left-8">
+                <div className="bg-[#263574] p-4 rounded-2xl shadow-lg">
+                  <Quote className="w-6 h-6 text-[#FACC15] fill-current" />
+                </div>
+              </div>
+
+              <div className="flex gap-1 mb-6 mt-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-accent text-accent" />
+                  <Star key={i} className="w-4 h-4 fill-[#FACC15] text-[#FACC15]" />
                 ))}
               </div>
 
-              <p className="text-foreground/90 mb-6 leading-relaxed italic">
+              <p className="text-[#263574] text-lg md:text-xl mb-8 leading-relaxed font-bold italic">
                 "{testimonial.quote}"
               </p>
 
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/30"
-                />
+              <div className="flex items-center gap-4 border-t border-gray-200 pt-6">
+                <div className="relative">
+                  {/* <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-14 h-14 rounded-2xl object-cover border-2 border-[#FACC15]"
+                  /> */}
+                  {/* <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white" /> */}
+                </div>
                 <div>
-                  <h4 className="font-display font-bold text-foreground">
+                  <h4 className="text-xl font-black italic text-[#263574] uppercase tracking-tight">
                     {testimonial.name}
                   </h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  <p className="text-sm font-bold text-[#FACC15] uppercase tracking-widest">{testimonial.zone}</p>
                 </div>
               </div>
+
+              {/* Subtle accent line */}
+              <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-[#FACC15]/30 to-transparent rounded-b-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.div>
           ))}
         </div>
+      </div>
+
+      {/* Background purely decorative dots or subtle shape */}
+      <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
+        <svg width="200" height="200" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="40" stroke="#263574" strokeWidth="2" strokeDasharray="4 4" />
+        </svg>
       </div>
     </section>
   );

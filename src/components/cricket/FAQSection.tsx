@@ -27,51 +27,33 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <img
-          src="/faq.png"
-          alt="Cricket background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-background/55" />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 via-background/60 to-background" />
-      </div>
-
+    <section className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-4 py-1 mb-4 text-sm font-semibold tracking-wider uppercase bg-primary/20 border border-primary/40 rounded-full text-primary">
-            FAQs
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Frequently Asked{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-              Questions
-            </span>
+          <h2 className="text-4xl md:text-6xl font-black italic text-[#263574] leading-tight uppercase tracking-tight">
+            Frequently Asked <span className="text-[#FACC15] drop-shadow-sm">Questions</span>
           </h2>
-          <p className="text-foreground/80 max-w-2xl mx-auto">
-            Quick answers to the most common questions about training, batches, and enrollment.
-          </p>
+          <div className="w-24 h-1.5 bg-[#FACC15] mx-auto mt-6 rounded-full" />
         </motion.div>
 
-        <div className="max-w-7xl mx-auto glass rounded-2xl p-6 md:p-8 border border-white/10">
+        <div className="max-w-7l mx-auto">
           <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((item, idx) => (
               <AccordionItem
                 key={item.question}
                 value={`faq-${idx}`}
-                className="glass-hover rounded-xl border border-white/10 px-4"
+                className="bg-gray-50 rounded-2xl border border-gray-100 px-6 py-2 shadow-sm hover:shadow-md transition-all group overflow-hidden"
               >
-                <AccordionTrigger className="text-left text-foreground hover:no-underline">
+                <AccordionTrigger className="text-left text-[#263574] hover:no-underline font-black italic uppercase tracking-wider text-lg md:text-xl py-4 data-[state=open]:text-[#FACC15] transition-colors">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-foreground/75 leading-relaxed">
+                <AccordionContent className="text-gray-600 leading-relaxed font-bold py-4 border-t border-gray-200 mt-2">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -79,6 +61,9 @@ const FAQSection = () => {
           </Accordion>
         </div>
       </div>
+
+      {/* Subtle Background Pattern */}
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-gray-50 rounded-full -translate-x-1/2 translate-y-1/2 -z-0" />
     </section>
   );
 };

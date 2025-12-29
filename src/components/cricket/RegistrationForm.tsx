@@ -26,6 +26,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     email: '',
     password: '',
     referralCodeUsed: '',
+    couponCode: '',
     otp: '',
     termsAccepted: false,
     paymentAmount: 0,
@@ -35,6 +36,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [isAlreadyPaid, setIsAlreadyPaid] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
@@ -52,6 +54,13 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     }
   }, []);
   */
+
+  useEffect(() => {
+    const c = localStorage.getItem('brpl_coupon_code');
+    if (c) {
+      setFormData(prev => ({ ...prev, couponCode: c }));
+    }
+  }, []);
 
   const handleNext = () => {
     if (step === 1) {
@@ -80,7 +89,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         });
         return;
       }
-      setStep(step + 1);
+      setStep(isAlreadyPaid ? 3 : step + 1);
     } else if (step === 2) {
       // Allow direct navigation via Next button only if simulating or handled by Payment Handler
       // But we want to block "Next" until payment is done.
@@ -162,9 +171,10 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
       if (response.ok && data.success) {
         setIsOtpVerified(true);
+        setIsAlreadyPaid(data.isPaid || false);
         toast({
           title: "OTP Verified",
-          description: "Mobile number verified successfully.",
+          description: data.isPaid ? "You have already paid. Skipping payment step." : "Mobile number verified successfully.",
         });
       } else {
         toast({
@@ -321,6 +331,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         playerRole: formData.role,
         email: formData.email,
         password: formData.password,
+        couponCode: formData.couponCode,
         isFromLandingPage: true,
         paymentAmount: formData.paymentAmount,
         paymentId: formData.paymentId,
@@ -374,7 +385,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
   return (
     <>
-      <section id="registration" className="p-15 py-20 relative overflow-hidden">
+      <section id="registration" className={`relative overflow-hidden ${isEmbedded ? 'py-0' : 'py-20'}`}>
 
         <div className={`container mx-auto px-4 relative z-10 ${isEmbedded ? '' : 'grid lg:grid-cols-2 gap-12 items-center'}`}>
           {/* Left Content */}
@@ -418,25 +429,25 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
           {/* Right Form */}
           <motion.div
-            className={`bg-white rounded-2xl p-4 md:p-8 shadow-2xl relative overflow-hidden ${isEmbedded ? 'w-full' : ''}`}
+            className={`bg-white/10 backdrop-blur-md rounded-2xl p-4 md:p-6 shadow-2xl relative overflow-hidden ${isEmbedded ? 'w-full' : ''}`}
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="mb-8">
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-[#263574]"
+                  className="h-full bg-[#FACC15]"
                   initial={{ width: '0%' }}
                   animate={{ width: `${(step / 3) * 100}%` }}
                   transition={{ duration: 0.3 }}
                 />
               </div>
-              <div className="flex justify-between mt-2 text-sm font-medium text-gray-500">
-                <span className={step >= 1 ? 'text-[#263574] font-bold' : ''}>Details</span>
-                <span className={step >= 2 ? 'text-[#263574] font-bold' : ''}>Payment</span>
-                <span className={step >= 3 ? 'text-[#263574] font-bold' : ''}>Account</span>
+              <div className="flex justify-between mt-2 text-sm font-medium text-white/70">
+                <span className={step >= 1 ? 'text-white font-bold underline underline-offset-4 decoration-[#FACC15]' : ''}>Details</span>
+                <span className={step >= 2 ? 'text-white font-bold underline underline-offset-4 decoration-[#FACC15]' : ''}>Payment</span>
+                <span className={step >= 3 ? 'text-white font-bold underline underline-offset-4 decoration-[#FACC15]' : ''}>Account</span>
               </div>
             </div>
 
@@ -453,14 +464,14 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     <div className="space-y-4">
                       {/* Step 1 Fields */}
                       <div className="group relative z-50">
-                        <label className="block text-sm font-semibold mb-3 text-gray-700">Select Your Role</label>
+                        <label className="block text-sm font-semibold mb-3 text-white">Select Your Role</label>
                         <div className="relative">
                           <button
                             type="button"
                             onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                            className={`w-full p-3 bg-gray-50 border rounded-xl flex items-center justify-between transition-all duration-300 ${isRoleDropdownOpen ? 'border-[#263574] ring-2 ring-[#263574]/20' : 'border-gray-200 hover:border-[#263574]/50'}`}
+                            className={`w-full p-2.5 bg-gray-50 border rounded-xl flex items-center justify-between transition-all duration-300 ${isRoleDropdownOpen ? 'border-[#263574] ring-2 ring-[#263574]/20' : 'border-gray-200 hover:border-[#263574]/50'}`}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2.5">
                               {formData.role ? (
                                 <>
                                   <div className="p-2 bg-[#263574] text-white rounded-full">
@@ -476,7 +487,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                                   <div className="p-2 bg-gray-200 text-gray-500 rounded-full">
                                     <Target className="w-5 h-5" />
                                   </div>
-                                  <span className="text-gray-500">Choose your playing role</span>
+                                  <span className="text-gray-600">Choose your playing role</span>
                                 </>
                               )}
                             </div>
@@ -499,7 +510,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                                       setFormData(prev => ({ ...prev, role }));
                                       setIsRoleDropdownOpen(false);
                                     }}
-                                    className={`p-3 flex items-center gap-3 cursor-pointer transition-colors ${formData.role === role ? 'bg-[#263574]/5' : 'hover:bg-gray-50'}`}
+                                    className={`p-2.5 flex items-center gap-2.5 cursor-pointer transition-colors ${formData.role === role ? 'bg-[#263574]/5' : 'hover:bg-gray-50'}`}
                                   >
                                     <div className={`p-2 rounded-full ${formData.role === role ? 'bg-[#263574] text-white' : 'bg-gray-100 text-gray-500'}`}>
                                       {role === 'Batsman' && <Swords className="w-5 h-5" />}
@@ -507,7 +518,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                                       {role === 'Wicket Keeper' && <Shield className="w-5 h-5" />}
                                       {role === 'All-Rounder' && <Zap className="w-5 h-5" />}
                                     </div>
-                                    <span className={`font-semibold ${formData.role === role ? 'text-[#263574]' : 'text-gray-600'}`}>
+                                    <span className={`font-semibold ${formData.role === role ? 'text-[#263574]' : 'text-gray-800'}`}>
                                       {role}
                                     </span>
                                     {formData.role === role && <CheckCircle className="w-4 h-4 text-[#263574] ml-auto" />}
@@ -520,7 +531,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                       </div>
 
                       <div className="group">
-                        <label className="block text-sm font-semibold mb-2 text-gray-700">Full Name</label>
+                        <label className="block text-sm font-semibold mb-2 text-white">Full Name</label>
                         <div className="relative">
                           <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
                           <input
@@ -530,18 +541,18 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             onChange={handleChange}
                             required
                             placeholder="Enter your full name"
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
                       </div>
 
                       <div className="group">
-                        <label className="block text-sm font-semibold mb-2 text-gray-700">Mobile Number</label>
+                        <label className="block text-sm font-semibold mb-2 text-white">Mobile Number</label>
                         <div className="flex gap-2">
                           <div className="relative flex-grow flex">
 
                             {/* Country Code */}
-                            <div className="flex items-center px-4 bg-gray-100 border border-r-0 border-gray-200 rounded-l-lg text-gray-700 font-medium select-none">
+                            <div className="text-gray-600 flex items-center px-4 bg-gray-100 border border-r-0 border-gray-200 rounded-l-lg font-medium select-none">
                               +91
                             </div>
 
@@ -557,7 +568,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                                 disabled={isOtpVerified}
                                 required
                                 placeholder="Enter your mobile number"
-                                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-r-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                                className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-r-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                               />
 
                               {isOtpVerified && (
@@ -601,7 +612,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div className="group">
-                          <label className="block text-sm font-semibold mb-2 text-gray-700">State</label>
+                          <label className="block text-sm font-semibold mb-2 text-white">State</label>
                           <div className="relative">
                             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
                             <input
@@ -611,12 +622,12 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                               onChange={handleChange}
                               required
                               placeholder="Your State"
-                              className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                              className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                             />
                           </div>
                         </div>
                         <div className="group">
-                          <label className="block text-sm font-semibold mb-2 text-gray-700">Trial City</label>
+                          <label className="block text-sm font-semibold mb-2 text-white">Trial City</label>
                           <div className="relative">
                             <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
                             <input
@@ -626,13 +637,13 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                               onChange={handleChange}
                               required
                               placeholder="Preferred City"
-                              className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                              className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                             />
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-3 pt-2">
+                      <div className="flex items-center gap-2.5 pt-2">
                         <input
                           type="checkbox"
                           name="termsAccepted"
@@ -641,8 +652,8 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                           onChange={handleChange}
                           className="w-5 h-5 rounded border-gray-300 text-[#263574] focus:ring-[#263574]"
                         />
-                        <label htmlFor="termsAccepted" className="text-sm text-gray-600 cursor-pointer select-none">
-                          I agree to the <a href="#" className="text-[#263574] hover:underline font-semibold">Terms and Conditions</a>
+                        <label htmlFor="termsAccepted" className="text-sm text-gray-300 cursor-pointer select-none">
+                          I agree to the <a href="#" className="text-[#FACC15] hover:underline font-semibold">Terms and Conditions</a>
                         </label>
                       </div>
                     </div>
@@ -650,7 +661,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="w-full py-4 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
+                      className="w-full py-2 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
                     >
                       <span className="relative z-10">Next Step</span>
                       <ArrowRight className="w-5 h-5 relative z-10" />
@@ -668,21 +679,21 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     className="space-y-6"
                   >
                     <div className="text-center mb-8">
-                      <div className="w-16 h-16 bg-[#263574]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CreditCard className="w-8 h-8 text-[#263574]" />
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <CreditCard className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-xl font-bold mb-2 text-gray-900">Registration Fee</h3>
-                      <p className="text-3xl font-bold text-[#263574] mb-1">₹1,499.00</p>
-                      <p className="text-sm text-gray-500">One-time registration fee</p>
+                      <h3 className="text-xl font-bold mb-2 text-white">Registration Fee</h3>
+                      <p className="text-3xl font-bold text-[#FACC15] mb-1">₹1,499.00</p>
+                      <p className="text-sm text-gray-300">One-time registration fee</p>
                     </div>
 
                     <div className="space-y-4">
                       <div>
-                        <span className="font-medium text-gray-900 block">
+                        <span className="font-medium text-white block">
                           UPI / Net Banking
                         </span>
-                        <p className="text-sm text-gray-600 mt-1">
-                          100% secure payments powered by <span className="font-semibold text-[#263574]">Razorpay</span>.
+                        <p className="text-sm text-white/80 mt-1">
+                          100% secure payments powered by <span className="font-bold text-[#FACC15]">Razorpay</span>.
                           Supports UPI, Net Banking, Debit & Credit Cards.
                         </p>
                       </div>
@@ -692,7 +703,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="w-1/3 py-4 bg-gray-100 text-gray-700 font-display font-bold text-lg rounded-lg border border-gray-200 hover:bg-gray-200 transition-all"
+                        className="w-1/3 py-2 bg-white/10 text-white hover:bg-white/20 border-white/30 rounded-lg"
                       >
                         Back
                       </button>
@@ -700,7 +711,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                         type="button"
                         onClick={handlePayment}
                         disabled={isProcessingPayment}
-                        className="w-2/3 py-4 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
+                        className="w-2/3 py-2 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
                       >
                         <span className="relative z-10">{isProcessingPayment ? "Processing..." : "Pay & Proceed"}</span>
                         <ArrowRight className="w-5 h-5 relative z-10" />
@@ -719,16 +730,31 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     className="space-y-6"
                   >
                     <div className="text-center mb-8">
-                      <div className="w-16 h-16 bg-[#263574]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <User className="w-8 h-8 text-[#263574]" />
+                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <User className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-xl font-bold mb-2 text-gray-900">Create Your Account</h3>
-                      <p className="text-sm text-gray-500">Set up your login credentials to access the dashboard</p>
+                      <h3 className="text-xl font-bold mb-2 text-white">Create Your Account</h3>
+                      <p className="text-sm text-gray-300">Set up your login credentials to access the dashboard</p>
                     </div>
 
                     <div className="space-y-4">
+                      <div className="group">
+                        <label className="block text-sm font-semibold mb-2 text-white">Coupon Code (Optional)</label>
+                        <div className="relative">
+                          <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
+                          <input
+                            type="text"
+                            name="couponCode"
+                            value={formData.couponCode}
+                            onChange={handleChange}
+                            placeholder="Paste coupon code"
+                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                          />
+                        </div>
+                      </div>
+
                       {/* <div className="group">
-                        <label className="block text-sm font-semibold mb-2 text-gray-700">Referral Code (Optional)</label>
+                        <label className="block text-sm font-semibold mb-2 text-white">Referral Code (Optional)</label>
                         <div className="relative">
                           <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
                           <input
@@ -737,13 +763,13 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             value={formData.referralCodeUsed}
                             onChange={handleChange}
                             placeholder="Enter referral code if you have"
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
                       </div> */}
 
                       <div className="group">
-                        <label className="block text-sm font-semibold mb-2 text-gray-700">Email Address (Username)</label>
+                        <label className="block text-sm font-semibold mb-2 text-white">Email Address (Username)</label>
                         <div className="relative">
                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
                           <input
@@ -753,13 +779,13 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             onChange={handleChange}
                             required
                             placeholder="you@example.com"
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
                       </div>
 
                       <div className="group">
-                        <label className="block text-sm font-semibold mb-2 text-gray-700">Password</label>
+                        <label className="block text-sm font-semibold mb-2 text-white">Password</label>
                         <div className="relative">
                           {/* Reusing Shield icon or similar for password if Lock icon not imported, assuming Shield is available from imports */}
                           <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
@@ -770,7 +796,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             onChange={handleChange}
                             required
                             placeholder="Create a strong password"
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
                       </div>
@@ -780,14 +806,14 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="w-1/3 py-4 bg-gray-100 text-gray-700 font-display font-bold text-lg rounded-lg border border-gray-200 hover:bg-gray-200 transition-all"
+                        className="w-1/3 py-2 bg-white/10 text-white hover:bg-white/20 border-white/30"
                       >
                         Back
                       </button>
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-2/3 py-4 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group disabled:opacity-70 border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
+                        className="w-2/3 py-2 bg-[#263574] text-white font-display font-bold text-lg rounded-lg relative overflow-hidden group disabled:opacity-70 border-2 border-white/20 hover:bg-[#1f2b5e] shadow-lg flex items-center justify-center gap-2"
                       >
                         <span className="relative z-10">
                           {isSubmitting ? 'Registering...' : 'Complete Registration'}

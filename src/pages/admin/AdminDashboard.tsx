@@ -10,7 +10,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 const AdminDashboard = () => {
     const navigate = useNavigate();
     const [stats, setStats] = useState<{ totalUsers: number; totalCoaches: number; totalInfluencers: number } | null>(null);
-    const [activeTab, setActiveTab] = useState<'users' | 'coaches' | 'influencers' | 'traffic'>('users');
+    const [activeTab, setActiveTab] = useState<'users' | 'coaches' | 'influencers' | 'traffic' | 'coupons'>('users');
     const [items, setItems] = useState<any[]>([]);
     const [pagination, setPagination] = useState<{ page: number; limit: number; total: number; pages: number } | null>(null);
     const [loading, setLoading] = useState(true);
@@ -58,19 +58,32 @@ const AdminDashboard = () => {
         const fetchRecords = async () => {
             setLoadingTable(true);
             try {
-                const query = new URLSearchParams({
-                    type: activeTab,
-                    page: String(page),
-                    limit: String(limit),
-                    search: search.trim()
-                });
+                const trimmed = search.trim();
 
+                let endpoint = '';
 
-
-                // Use different endpoint for traffic
-                const endpoint = activeTab === 'traffic'
-                    ? `${BASE_URL}/auth/visits?${query.toString()}`
-                    : `${BASE_URL}/admin/records?${query.toString()}`;
+                if (activeTab === 'traffic') {
+                    const query = new URLSearchParams({
+                        page: String(page),
+                        limit: String(limit)
+                    });
+                    endpoint = `${BASE_URL}/auth/visits?${query.toString()}`;
+                } else if (activeTab === 'coupons') {
+                    const query = new URLSearchParams({
+                        page: String(page),
+                        limit: String(limit)
+                    });
+                    if (trimmed) query.append('code', trimmed.toUpperCase());
+                    endpoint = `${BASE_URL}/api/coupons/usage?${query.toString()}`;
+                } else {
+                    const query = new URLSearchParams({
+                        type: activeTab,
+                        page: String(page),
+                        limit: String(limit),
+                        search: trimmed
+                    });
+                    endpoint = `${BASE_URL}/admin/records?${query.toString()}`;
+                }
 
                 const response = await fetch(endpoint, {
                     headers: { Authorization: `Bearer ${token}` }
@@ -98,6 +111,16 @@ const AdminDashboard = () => {
         localStorage.removeItem("_admin_token");
         navigate('/admin/landing/admin');
     };
+
+    const CouponRow = ({ item }: { item: any }) => (
+        <tr className="border-b hover:bg-gray-50 text-sm">
+            <td className="p-4 font-mono font-bold text-gray-900">{item.code}</td>
+            <td className="p-4 text-gray-600 whitespace-nowrap">{item.isActive ? 'Active' : 'Inactive'}</td>
+            <td className="p-4 text-gray-600 whitespace-nowrap">{item.usedCount || 0}</td>
+            <td className="p-4 text-gray-600 whitespace-nowrap">{Array.isArray(item.usedBy) ? item.usedBy.length : 0}</td>
+            <td className="p-4 text-gray-400 text-xs whitespace-nowrap">{item.createdAt ? new Date(item.createdAt).toLocaleString() : '-'}</td>
+        </tr>
+    );
 
     const TableRow = ({ item, type }: { item: any, type: string }) => (
         <tr className="border-b hover:bg-gray-50 text-sm">
@@ -356,6 +379,7 @@ const AdminDashboard = () => {
                                     <TabsTrigger value="coaches">Coaches</TabsTrigger>
                                     <TabsTrigger value="influencers">Influencers</TabsTrigger>
                                     <TabsTrigger value="traffic">Traffic / Visits</TabsTrigger>
+                                    <TabsTrigger value="coupons">Coupon Usage</TabsTrigger>
                                 </TabsList>
 
                                 <div className="flex gap-2 md:hidden">
@@ -374,13 +398,13 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
 
-                            {(['users', 'coaches', 'influencers', 'traffic'] as const).map((t) => (
+                            {(['users', 'coaches', 'influencers', 'traffic', 'coupons'] as const).map((t) => (
                                 <TabsContent key={t} value={t} className="m-0">
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-left">
                                             <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold">
                                                 <tr>
-                                                    {t !== 'traffic' && (
+                                                    {t !== 'traffic' && t !== 'coupons' && (
                                                         <>
                                                             <th className="p-4">Name</th>
                                                             <th className="p-4">Email</th>
@@ -401,18 +425,29 @@ const AdminDashboard = () => {
                                                             <th className="p-4">Time</th>
                                                         </>
                                                     )}
+                                                    {t === 'coupons' && (
+                                                        <>
+                                                            <th className="p-4">Code</th>
+                                                            <th className="p-4">Status</th>
+                                                            <th className="p-4">Used Count</th>
+                                                            <th className="p-4">Users</th>
+                                                            <th className="p-4">Created</th>
+                                                        </>
+                                                    )}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {loadingTable && (
                                                     <tr>
-                                                        <td colSpan={t === 'users' ? 7 : 5} className="p-8 text-center text-gray-500">Loading...</td>
+                                                        <td colSpan={t === 'users' ? 7 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">Loading...</td>
                                                     </tr>
                                                 )}
 
                                                 {!loadingTable && items.map((item: any) => (
                                                     t === 'traffic' ? (
                                                         <VisitRow key={item._id} item={item} />
+                                                    ) : t === 'coupons' ? (
+                                                        <CouponRow key={item._id} item={item} />
                                                     ) : (
                                                         <TableRow
                                                             key={item._id}
@@ -424,7 +459,7 @@ const AdminDashboard = () => {
 
                                                 {!loadingTable && items.length === 0 && (
                                                     <tr>
-                                                        <td colSpan={t === 'users' ? 7 : 5} className="p-8 text-center text-gray-500">No records found</td>
+                                                        <td colSpan={t === 'users' ? 7 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">No records found</td>
                                                     </tr>
                                                 )}
                                             </tbody>

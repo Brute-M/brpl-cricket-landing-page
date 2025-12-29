@@ -7,7 +7,10 @@ import RegistrationForm from './RegistrationForm';
 const HeroSection = () => {
   const [searchParams] = useSearchParams();
   const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [couponCode, setCouponCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  // const BASE_URL = "http://localhost:5000/api";
+  const BASE_URL = "https://brpl.net/api";
 
   useEffect(() => {
     // Force show with fallback as requested "show this hardly"
@@ -15,9 +18,27 @@ const HeroSection = () => {
     setReferralCode(code);
   }, [searchParams]);
 
+  useEffect(() => {
+    const fetchActiveCoupon = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/coupons/active`);
+        const data = await response.json().catch(() => null);
+        if (response.ok && data?.data?.code) {
+          setCouponCode(String(data.data.code));
+          return;
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    fetchActiveCoupon();
+  }, []);
+
   const copyToClipboard = () => {
-    if (referralCode) {
-      navigator.clipboard.writeText(referralCode);
+    if (couponCode) {
+      navigator.clipboard.writeText(couponCode);
+      localStorage.setItem('brpl_coupon_code', couponCode);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -31,18 +52,14 @@ const HeroSection = () => {
     <section className="relative md:min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <div className="absolute inset-0 bg-black/50 z-10" /> {/* Darker overlay for better text visibility */}
         <img
-          src="/stats.png"
+          src="/banner-image.png"
           alt="Cricket Banner"
-          className="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-110 transition-transform duration-[20s]"
+          className="absolute inset-0 w-full h-full object-cover object-top"
         />
       </div>
 
-      {/* Semi-transparent Overlay */}
-      <div className="absolute inset-0 bg-black/30" />
-
-      {/* Animated particles */}
+      {/* Animated particles - Commented out for cleaner view
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -65,25 +82,93 @@ const HeroSection = () => {
           />
         ))}
       </div>
+      */}
 
 
 
       {/* Content */}
-      <div className="container relative z-10 px-4 mx-auto pt-24 pb-8 md:py-20">
+      <div className="container relative z-10 px-4 mx-auto pt-40 pb-8 md:py-20 mt-4 md:mt-20">
         <div className="grid lg:grid-cols-2 gap-0 md:gap-12 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left text-white">
 
 
-            <motion.h1
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mt-10 md:mt-0 mb-0 md:mb-6 leading-tight text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <span className="block text-white mb-2">BHARAT KI LEAGUE</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] filter brightness-125">BHARTIYO KA SAPNA</span>
-            </motion.h1>
+            <div className="text-center lg:text-left select-none">
+              {/* Top Group */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-6 md:mb-12"
+              >
+                <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase">
+                  INDIA'S BIGGEST
+                </h2>
+                <h1 className="text-5xl md:text-8xl lg:text-9xl font-black italic text-[#FACC15] leading-none md:leading-[0.8] mt-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase">
+                  T10 TENNIS
+                </h1>
+                <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-[#FACC15] leading-none mt-2 drop-shadow-lg uppercase">
+                  CRICKET TOURNAMENT
+                </h2>
+              </motion.div>
+
+              {/* Bottom Group */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-8 space-y-3"
+              >
+                <p className="text-lg md:text-3xl lg:text-4xl font-black italic leading-none drop-shadow-md">
+                  <span className="text-white">Your Gully Cricket Days </span>
+                  <span className="text-[#FACC15] uppercase">ARE OVER</span>
+                </p>
+                <p className="text-base md:text-2xl lg:text-3xl font-bold italic text-white/90 drop-shadow-sm uppercase">
+                  Now Play in Real Stadiums
+                </p>
+
+                <motion.button
+                  onClick={scrollToForm}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="mt-6 px-10 py-4 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic text-xl md:text-2xl rounded-lg shadow-[0_10px_30px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group"
+                >
+                  <span className="relative z-10">Register Now</span>
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                </motion.button>
+              </motion.div>
+            </div>
+
+            {couponCode && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="mt-8 mb-8 md:mb-0 inline-flex flex-col items-center lg:items-start w-full lg:w-auto"
+              >
+                <p className="text-[#FACC15] text-xs md:text-sm mb-2 md:mb-3 font-black tracking-[0.2em] uppercase drop-shadow-sm">
+                  ★ Your Exclusive Coupon Code ★
+                </p>
+                <div className="flex items-center gap-2 md:gap-3 bg-white/10 backdrop-blur-xl border-2 border-[#FACC15] p-1.5 md:p-2 pr-3 md:pr-4 rounded-xl shadow-[0_0_25px_rgba(250,204,21,0.3)] group transition-all hover:bg-white/15 hover:shadow-[0_0_40px_rgba(250,204,21,0.5)]">
+                  <button
+                    onClick={copyToClipboard}
+                    className="bg-[#FACC15] text-black px-3 py-1.5 md:px-6 md:py-2.5 rounded-lg font-mono font-black italic tracking-widest text-lg md:text-2xl shadow-inner cursor-pointer hover:bg-yellow-400 transition-colors"
+                  >
+                    {couponCode}
+                  </button>
+                  <button
+                    onClick={copyToClipboard}
+                    className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
+                    title="Copy Code"
+                  >
+                    {copied ? <Check className="w-8 h-8 text-green-400" /> : <Copy className="w-8 h-8 text-white/90 group-hover:text-[#FACC15]" />}
+                  </button>
+                </div>
+                <p className="text-white/80 text-[10px] md:text-xs mt-3 font-bold uppercase tracking-tight">
+                  Applied at registration Step 3
+                </p>
+              </motion.div>
+            )}
 
 
             {/* {referralCode && (

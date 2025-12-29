@@ -1,11 +1,17 @@
 import Navbar from '@/components/cricket/Navbar';
 import HeroSection from '@/components/cricket/HeroSection';
+import MissionSection from '@/components/cricket/MissionSection';
+import NumbersSpeak from '@/components/cricket/NumbersSpeak';
+import JourneySection from '@/components/cricket/JourneySection';
+import FutureSection from '@/components/cricket/FutureSection';
 import StatsSection from '@/components/cricket/StatsSection';
 import FeaturesSection from '@/components/cricket/FeaturesSection';
-// import TestimonialsSection from '@/components/cricket/TestimonialsSection';
+import TestimonialsSection from '@/components/cricket/TestimonialsSection';
+import UrgencySection from '@/components/cricket/UrgencySection';
 import RegistrationForm from '@/components/cricket/RegistrationForm';
 // import CoachRegistrationForm from '@/components/cricket/CoachRegistrationForm';
 import FAQSection from '@/components/cricket/FAQSection';
+import FloatingRegisterButton from '@/components/cricket/FloatingRegisterButton';
 import Footer from '@/components/cricket/Footer';
 import SEO from '@/components/SEO';
 
@@ -19,15 +25,20 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
+        <MissionSection />
+        <NumbersSpeak />
+        <JourneySection />
+        <FutureSection />
         {/* <div id="stats">
           <StatsSection />
         </div> */}
-        {/* <div id="testimonials">
+        <div id="testimonials">
           <TestimonialsSection />
-        </div> */}
-        <div id="why-choose-us">
-          <FeaturesSection />
         </div>
+        <UrgencySection />
+        {/* <div id="why-choose-us">
+          <FeaturesSection />
+        </div> */}
         {/* <RegistrationForm /> */}
         {/* <CoachRegistrationForm /> */}
         <div id="faqs">
@@ -35,6 +46,7 @@ const Index = () => {
         </div>
       </main>
       <Footer />
+      <FloatingRegisterButton />
     </div>
   );
 };
