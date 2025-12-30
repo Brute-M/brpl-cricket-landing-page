@@ -41,22 +41,6 @@ const MissionSection = () => {
                                     <Play className="w-12 h-12 text-black fill-current translate-x-1" />
                                 </motion.div>
                             </div>
-
-                            {/* Video Bottom Info */}
-                            <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
-                                <div className="bg-black/60 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 flex items-center justify-between">
-                                    <span className="text-white font-black italic uppercase tracking-wider text-sm md:text-base">
-                                        CMTAI Podcast BRPL Teaser
-                                    </span>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
-                                        <span className="text-white/80 text-xs font-bold uppercase tracking-tighter">Live Demo</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Shimmer Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
                         </div>
                     </motion.div>
 
