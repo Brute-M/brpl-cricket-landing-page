@@ -22,7 +22,7 @@ const MissionSection = () => {
                         <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group border-2 border-gray-200">
                             {/* This would be the video element, using an image as placeholder for now */}
                             <video
-                                src="/CMTAI Podcast BRPL Teaser updated.mp4"
+                                src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/CMTAI+Podcast+BRPL+Teaser+updated.mp4"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-90"
                                 muted
                                 loop
@@ -99,7 +99,7 @@ const MissionSection = () => {
                                 <X className="w-6 h-6" />
                             </button>
                             <video
-                                src="/CMTAI Podcast BRPL Teaser updated.mp4"
+                                src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/CMTAI+Podcast+BRPL+Teaser+updated.mp4"
                                 className="w-full h-full object-contain"
                                 controls
                                 autoPlay

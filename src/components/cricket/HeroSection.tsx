@@ -53,7 +53,7 @@ const HeroSection = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <img
-          src="/banner-image.png"
+          src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/banner-image.png"
           alt="Cricket Banner"
           className="absolute inset-0 w-full h-full object-cover object-top"
         />

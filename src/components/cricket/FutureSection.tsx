@@ -42,7 +42,7 @@ const FutureSection = () => {
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src="/count-image.png"
+                    src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/count-image.png"
                     alt="Cricket Background"
                     className="w-full h-full object-cover opacity-40"
                 />

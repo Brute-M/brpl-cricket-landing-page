@@ -13,7 +13,7 @@ const Footer = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/banner-image.png"
+          src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/banner-image.png"
           alt="Cricket Stadium"
           className="w-full h-full object-cover"
         />
