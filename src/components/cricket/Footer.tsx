@@ -47,7 +47,7 @@ const Footer = () => {
                 </p>
               </div>
 
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
@@ -60,7 +60,7 @@ const Footer = () => {
                     {social.icon}
                   </motion.a>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Navigation Spacer */}
