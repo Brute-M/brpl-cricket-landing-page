@@ -3,23 +3,23 @@ import { Quote, Star } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "I was just another college cricketer. After BRPL zone trials, I got selected for my state team. This tournament changed my life.",
-    name: "Annurag Singh",
-    zone: "Mumbai Zone",
+    quote: "I played district cricket 20 years ago. No one gave me a chance beyond that. BRPL is building the system I wish I had.",
+    name: "Vijay Singh",
+    zone: "Former Coach, Punjab",
     // image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
   {
-    quote: "₹1,499 was the best investment I ever made. The exposure alone was worth 100x that.",
-    name: "Yashwant Singh",
-    zone: "Delhi Zone",
+    quote: "I drive an auto all day. My bat is in the backseat—I hit the nets every evening. BRPL made me believe I wasn't too old or too poor.",
+    name: "Suresh Kumar",
+    zone: ",25, Tamil Nadu",
     // image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
   {
-    quote: "My parents finally saw me play in a real stadium. That moment was priceless.",
-    name: "Arjun K.",
-    zone: "Bangalore Zone",
+    quote: "I'm a night security guard. I practice with a tennis ball during my breaks. BRPL told me talent doesn't have a schedule.",
+    name: "Mohammad Irfan",
+    zone: ",28, Uttar Pradesh",
     // image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
