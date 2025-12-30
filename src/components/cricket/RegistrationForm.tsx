@@ -14,6 +14,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -45,6 +46,15 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
 
   const roles = ['Batsman', 'Bowler', 'Wicket Keeper', 'All-Rounder'];
+  const indianStates = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+    "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+  ];
 
   /*
   useEffect(() => {
@@ -429,7 +439,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
           {/* Right Form */}
           <motion.div
-            className={`bg-white/10 backdrop-blur-md rounded-2xl p-4 md:p-6 shadow-2xl relative overflow-hidden ${isEmbedded ? 'w-full' : ''}`}
+            className={`bg-white/10 backdrop-blur-md rounded-2xl p-4 md:p-6 shadow-2xl relative ${isEmbedded ? 'w-full' : ''}`}
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -611,19 +621,50 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="group">
+                        <div className="group relative">
                           <label className="block text-sm font-semibold mb-2 text-white">State</label>
                           <div className="relative">
-                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
-                            <input
-                              type="text"
-                              name="state"
-                              value={formData.state}
-                              onChange={handleChange}
-                              required
-                              placeholder="Your State"
-                              className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
-                            />
+                            <button
+                              type="button"
+                              onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+                              className={`w-full pl-12 pr-10 py-2 bg-gray-50 border rounded-lg flex items-center justify-between transition-all duration-300 ${isStateDropdownOpen ? 'border-[#263574] ring-2 ring-[#263574]/20' : 'border-gray-200 hover:border-[#263574]/50'}`}
+                            >
+                              <div className="flex items-center gap-2">
+                                <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${isStateDropdownOpen ? 'text-[#263574]' : 'text-gray-400'}`} />
+                                <span className={formData.state ? 'text-gray-900 font-medium' : 'text-gray-400'}>
+                                  {formData.state || 'Select State'}
+                                </span>
+                              </div>
+                              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isStateDropdownOpen ? 'rotate-180 text-[#263574]' : ''}`} />
+                            </button>
+
+                            <AnimatePresence>
+                              {isStateDropdownOpen && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-y-auto max-h-60 z-[60] scrollbar-thin scrollbar-thumb-gray-200"
+                                >
+                                  {indianStates.map((state) => (
+                                    <div
+                                      key={state}
+                                      onClick={() => {
+                                        setFormData(prev => ({ ...prev, state }));
+                                        setIsStateDropdownOpen(false);
+                                      }}
+                                      className={`p-2.5 flex items-center gap-2.5 cursor-pointer transition-colors ${formData.state === state ? 'bg-[#263574]/5' : 'hover:bg-gray-50'}`}
+                                    >
+                                      <span className={`text-sm font-semibold ${formData.state === state ? 'text-[#263574]' : 'text-gray-800'}`}>
+                                        {state}
+                                      </span>
+                                      {formData.state === state && <CheckCircle className="w-4 h-4 text-[#263574] ml-auto" />}
+                                    </div>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
                         </div>
                         <div className="group">

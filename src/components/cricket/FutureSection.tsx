@@ -46,12 +46,12 @@ const FutureSection = () => {
                     alt="Cricket Background"
                     className="w-full h-full object-cover opacity-40"
                 />
-                <div className="aabsolute inset-0 bg-black/20"></div>
+                <div className="absolute inset-0 bg-black/20"></div>
             </div>
 
             <div className="w-full px-4 md:px-10 relative z-10">
                 <motion.h2
-                    className="text-3xl md:text-5xl lg:text-6xl font-black text-center mb-10 text-[#FACC15] italic uppercase tracking-tight drop-shadow-2xl"
+                    className="text-3xl md:text-5xl lg:text-6xl font-black text-center mb-10 text-[#FACC15] uppercase tracking-tight drop-shadow-2xl"
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -79,11 +79,11 @@ const FutureSection = () => {
                                         <div className="p-1 bg-[#FACC15] rounded-full mt-1">
                                             <Check className="w-3 h-3 text-black stroke-[4]" />
                                         </div>
-                                        <h3 className="text-sm font-black text-blue-900 leading-tight uppercase tracking-widest italic">
+                                        <h3 className="text-sm font-black text-blue-900 leading-tight uppercase tracking-widest ">
                                             {benefit.title}
                                         </h3>
                                     </div>
-                                    <p className="text-[11px] text-blue-800 font-bold leading-relaxed group-hover:text-blue-950 transition-colors italic">
+                                    <p className="text-[11px] text-blue-800 font-bold leading-relaxed group-hover:text-blue-950 transition-colors ">
                                         {benefit.desc}
                                     </p>
                                 </motion.div>
@@ -114,11 +114,11 @@ const FutureSection = () => {
                                 <div className="p-1.5 bg-[#FACC15] rounded-full">
                                     <Check className="w-4 h-4 text-black stroke-[4]" />
                                 </div>
-                                <h3 className="text-xl font-black text-blue-900 uppercase italic tracking-wider">
+                                <h3 className="text-xl font-black text-blue-900 uppercase  tracking-wider">
                                     {benefit.title}
                                 </h3>
                             </div>
-                            <p className="text-blue-800 text-base ml-12 italic font-medium">
+                            <p className="text-blue-800 text-base ml-12  font-medium">
                                 {benefit.desc}
                             </p>
                         </motion.div>

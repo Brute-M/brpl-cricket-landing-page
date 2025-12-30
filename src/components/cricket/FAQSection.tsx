@@ -5,7 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 const faqs = [
   {
     question: 'Who can participate in BRPL?',
-    answer: 'BRPL is open to aspiring and semi-professional cricketers aged 16–35 from 28 states and 8 Union Territories across India. If you have the skill and hunger to compete, BRPL is for you.',
+    answer: 'BRPL is open to aspiring and semi-professional cricketers aged 18-40 from 28 states and 8 Union Territories across India. If you have the skill and hunger to compete, BRPL is for you.',
   },
   {
     question: 'Do I need to travel for trials or auditions?',
@@ -36,7 +36,7 @@ const FAQSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-6xl font-black italic text-[#263574] leading-tight uppercase tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-black text-[#263574] leading-tight uppercase tracking-tight">
             Frequently Asked <span className="text-[#FACC15] drop-shadow-sm">Questions</span>
           </h2>
           <div className="w-24 h-1.5 bg-[#FACC15] mx-auto mt-6 rounded-full" />
@@ -50,7 +50,7 @@ const FAQSection = () => {
                 value={`faq-${idx}`}
                 className="bg-gray-50 rounded-2xl border border-gray-100 px-6 py-2 shadow-sm hover:shadow-md transition-all group overflow-hidden"
               >
-                <AccordionTrigger className="text-left text-[#263574] hover:no-underline font-black italic uppercase tracking-wider text-lg md:text-xl py-4 data-[state=open]:text-[#FACC15] transition-colors">
+                <AccordionTrigger className="text-left text-[#263574] hover:no-underline font-black uppercase tracking-wider text-lg md:text-xl py-4 data-[state=open]:text-[#FACC15] transition-colors">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 leading-relaxed font-bold py-4 border-t border-gray-200 mt-2">

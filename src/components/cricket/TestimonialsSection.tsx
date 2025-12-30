@@ -4,14 +4,14 @@ import { Quote, Star } from 'lucide-react';
 const testimonials = [
   {
     quote: "I was just another college cricketer. After BRPL zone trials, I got selected for my state team. This tournament changed my life.",
-    name: "Rahul M.",
+    name: "Annurag Singh",
     zone: "Mumbai Zone",
     // image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
   {
     quote: "₹1,499 was the best investment I ever made. The exposure alone was worth 100x that.",
-    name: "Priya S.",
+    name: "Yashwant Singh",
     zone: "Delhi Zone",
     // image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     rating: 5,
@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-6xl font-black italic text-[#263574] leading-tight uppercase tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-black text-[#263574] leading-tight uppercase tracking-tight">
             Lives Changed by <span className="text-[#FACC15] drop-shadow-sm">BRPL</span>
           </h2>
           <div className="w-24 h-1.5 bg-[#FACC15] mx-auto mt-6 rounded-full" />
@@ -65,7 +65,7 @@ const TestimonialsSection = () => {
                 ))}
               </div>
 
-              <p className="text-[#263574] text-lg md:text-xl mb-8 leading-relaxed font-bold italic">
+              <p className="text-[#263574] text-lg md:text-xl mb-8 leading-relaxed font-bold">
                 "{testimonial.quote}"
               </p>
 

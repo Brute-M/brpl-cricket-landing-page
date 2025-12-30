@@ -61,7 +61,7 @@ const MissionSection = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <div className="space-y-6">
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic text-[#FACC15] leading-tight uppercase">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#FACC15] leading-tight uppercase">
                                 Where unknown talent becomes unstoppable.
                             </h2>
 

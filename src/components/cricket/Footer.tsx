@@ -39,7 +39,7 @@ const Footer = () => {
               </motion.a>
 
               <div className="space-y-4">
-                <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter text-[#FACC15]">
+                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-[#FACC15]">
                   Beyond Reach Premier League
                 </h3>
                 <p className="text-white leading-relaxed max-w-md font-bold text-lg">

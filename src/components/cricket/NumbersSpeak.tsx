@@ -6,37 +6,37 @@ const stats = [
         icon: <Trophy className="w-8 h-8 text-yellow-500" />,
         value: '₹3 Cr',
         label: 'Total Prize Pool',
-        color: 'text-[#FACC15]'
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
         icon: <Map className="w-8 h-8 text-blue-400" />,
         value: '28+8',
         label: 'States + UTs',
-        color: 'text-[#FACC15]'
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
         icon: <Video className="w-8 h-8 text-purple-400" />,
         value: '100%',
         label: 'Remote Audition',
-        color: 'text-[#FACC15]'
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
         icon: <Users className="w-8 h-8 text-indigo-400" />,
         value: 'All Ages',
-        label: 'U-16, U-19, U-24, U-40',
-        color: 'text-[#FACC15]'
+        label: 'U-18, U-19, U-24, U-40',
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
         icon: <Zap className="w-8 h-8 text-orange-400" />,
         value: '1,000+',
         label: 'Players Registered',
-        color: 'text-[#FACC15]'
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
         icon: <Target className="w-8 h-8 text-pink-400" />,
         value: '0 Bias',
         label: 'Pure Skill Selection',
-        color: 'text-[#FACC15]'
+        color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     }
 ];
 

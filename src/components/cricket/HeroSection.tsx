@@ -119,11 +119,11 @@ const HeroSection = () => {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-8 space-y-3"
               >
-                <p className="text-lg md:text-3xl lg:text-4xl font-black italic leading-none drop-shadow-md">
+                <p className="text-lg md:text-3xl lg:text-4xl font-black leading-none drop-shadow-md">
                   <span className="text-white">Your Gully Cricket Days </span>
                   <span className="text-[#FACC15] uppercase">ARE OVER</span>
                 </p>
-                <p className="text-base md:text-2xl lg:text-3xl font-bold italic text-white/90 drop-shadow-sm uppercase">
+                <p className="text-base md:text-2xl lg:text-3xl font-bold text-white/90 drop-shadow-sm uppercase">
                   Now Play in Real Stadiums
                 </p>
 
@@ -131,7 +131,7 @@ const HeroSection = () => {
                   onClick={scrollToForm}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-6 px-10 py-4 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic text-xl md:text-2xl rounded-lg shadow-[0_10px_30px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group"
+                  className="mt-6 px-10 py-4 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black text-xl md:text-2xl rounded-lg shadow-[0_10px_30px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group"
                 >
                   <span className="relative z-10">Register Now</span>
                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />

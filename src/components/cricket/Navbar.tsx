@@ -45,19 +45,16 @@ const Navbar = () => {
           {[...Array(3)].map((_, i) => (
             <div key={i} className="flex items-center gap-8">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span className="font-black italic uppercase text-sm tracking-wider">
+                <span className="font-black uppercase text-sm tracking-wider">
                   Registration Closing Soon - Limited Slots Available
                 </span>
               </div>
               <span className="text-sm font-bold">•</span>
-              <span className="font-black italic uppercase text-sm tracking-wider">
-                Early Bird Offer Ends Dec 31st
-              </span>
-              <span className="text-sm font-bold">•</span>
-              <span className="font-black italic uppercase text-sm tracking-wider">
-                Secure Your Spot Today!
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="font-black uppercase text-sm tracking-wider">
+                  Registration Closing Soon - Limited Slots Available
+                </span>
+              </div>
               <span className="text-sm font-bold">•</span>
             </div>
           ))}
@@ -93,7 +90,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={() => scrollToSection('#registration')}
-                className="px-6 py-2 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group border-none"
+                className="px-6 py-2 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group border-none"
               >
                 <span className="relative z-10">Register Now</span>
                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -124,7 +121,7 @@ const Navbar = () => {
               <div className="flex flex-col gap-6">
                 <motion.button
                   onClick={() => scrollToSection('#registration')}
-                  className="mt-4 px-6 py-3 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black italic rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.3)] uppercase tracking-wider relative overflow-hidden group"
+                  className="mt-4 px-6 py-3 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.3)] uppercase tracking-wider relative overflow-hidden group"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}

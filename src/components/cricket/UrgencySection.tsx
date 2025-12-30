@@ -6,8 +6,8 @@ const UrgencySection = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 12, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        // Target date set to ensure roughly 12 days from now
-        const targetDate = new Date('2026-01-11T00:00:00');
+        // Target date set to January 11, 2026 00:00 AM IST (End of Jan 10)
+        const targetDate = new Date('2026-01-11T00:00:00+05:30');
 
         const calculateTimeLeft = () => {
             const now = new Date();
@@ -59,7 +59,7 @@ const UrgencySection = () => {
                         className="flex items-center justify-center gap-3 mb-10"
                     >
                         <AlertTriangle className="w-8 h-8 md:w-12 md:h-12 text-[#FACC15] animate-pulse" />
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black italic text-white uppercase tracking-tight drop-shadow-xl">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight drop-shadow-xl">
                             Your Zone Is <span className="text-[#FACC15]">Filling Up Fast</span>
                         </h2>
                     </motion.div>
@@ -73,7 +73,7 @@ const UrgencySection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
                         >
-                            <span className="text-5xl md:text-7xl font-black italic text-white mb-2 drop-shadow-md">78%</span>
+                            <span className="text-5xl md:text-7xl font-black text-white mb-2 drop-shadow-md">78%</span>
                             <span className="text-[#FACC15] font-bold uppercase tracking-widest text-sm md:text-base">Seats Filled</span>
                         </motion.div>
 
@@ -84,7 +84,7 @@ const UrgencySection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
                         >
-                            <span className="text-5xl md:text-7xl font-black italic text-white mb-2 drop-shadow-md tabular-nums">
+                            <span className="text-5xl md:text-7xl font-black text-white mb-2 drop-shadow-md tabular-nums">
                                 {String(timeLeft.days).padStart(2, '0')}:{String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
                             </span>
                             <span className="text-[#FACC15] font-bold uppercase tracking-widest text-sm md:text-base">Time Remaining</span>
@@ -97,7 +97,7 @@ const UrgencySection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.3 }}
                         >
-                            <span className="text-5xl md:text-7xl font-black italic text-white mb-2 drop-shadow-md">89</span>
+                            <span className="text-5xl md:text-7xl font-black text-white mb-2 drop-shadow-md">89</span>
                             <span className="text-[#FACC15] font-bold uppercase tracking-widest text-sm md:text-base">Spots Remaining</span>
                         </motion.div>
                     </div>
@@ -126,7 +126,7 @@ const UrgencySection = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         viewport={{ once: true }}
-                        className="group bg-white text-[#263574] px-8 md:px-16 py-5 rounded-full font-black italic text-xl md:text-3xl uppercase tracking-tighter shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center gap-4 mx-auto transition-all hover:bg-[#FACC15] hover:text-black"
+                        className="group bg-white text-[#263574] px-8 md:px-16 py-5 rounded-full font-black text-xl md:text-3xl uppercase tracking-tighter shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center gap-4 mx-auto transition-all hover:bg-[#FACC15] hover:text-black"
                     >
                         <span>CLAIM YOUR SPOT NOW - ₹1,499</span>
                         <ArrowRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-2 transition-transform" />

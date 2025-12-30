@@ -45,7 +45,7 @@ const FloatingRegisterButton = () => {
                             <Zap className="w-5 h-5 fill-current" />
                         </div>
 
-                        <span className="font-black italic uppercase tracking-tighter text-lg md:text-xl">
+                        <span className="font-black uppercase tracking-tighter text-lg md:text-xl">
                             Register Now
                         </span>
 
