@@ -1,7 +1,11 @@
-import { motion } from 'framer-motion';
-import { Play } from 'lucide-react';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, X } from 'lucide-react';
+import { useState } from 'react';
 
 const MissionSection = () => {
+    const [isVideoOpen, setIsVideoOpen] = useState(false);
+
     return (
         <section className="py-20 bg-white relative overflow-hidden border-y border-gray-200">
             <div className="container mx-auto px-4 relative z-10">
@@ -17,10 +21,13 @@ const MissionSection = () => {
                     >
                         <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl group border-2 border-gray-200">
                             {/* This would be the video element, using an image as placeholder for now */}
-                            <img
-                                src="/banner-2.png"
-                                alt="Tournament Promo"
+                            <video
+                                src="/CMTAI Podcast BRPL Teaser updated.mp4"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-75 group-hover:brightness-90"
+                                muted
+                                loop
+                                playsInline
+                                autoPlay
                             />
 
                             {/* Play Overlay */}
@@ -28,17 +35,18 @@ const MissionSection = () => {
                                 <motion.div
                                     initial={{ opacity: 0.8 }}
                                     whileHover={{ scale: 1.1, opacity: 1 }}
-                                    className="w-24 h-24 bg-[#FACC15] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(250,204,21,0.6)] cursor-pointer"
+                                    onClick={() => setIsVideoOpen(true)}
+                                    className="w-24 h-24 bg-[#FACC15] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(250,204,21,0.6)] cursor-pointer z-20"
                                 >
                                     <Play className="w-12 h-12 text-black fill-current translate-x-1" />
                                 </motion.div>
                             </div>
 
                             {/* Video Bottom Info */}
-                            <div className="absolute bottom-6 left-6 right-6">
+                            <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
                                 <div className="bg-black/60 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 flex items-center justify-between">
                                     <span className="text-white font-black italic uppercase tracking-wider text-sm md:text-base">
-                                        Official Pro Reel 2024
+                                        CMTAI Podcast BRPL Teaser
                                     </span>
                                     <div className="flex items-center gap-2">
                                         <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
@@ -82,6 +90,40 @@ const MissionSection = () => {
 
                 </div>
             </div>
+
+            {/* Video Modal */}
+            <AnimatePresence>
+                {isVideoOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+                        onClick={() => setIsVideoOpen(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setIsVideoOpen(false)}
+                                className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                            <video
+                                src="/CMTAI Podcast BRPL Teaser updated.mp4"
+                                className="w-full h-full object-contain"
+                                controls
+                                autoPlay
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Dynamic Background Glows */}
             <div className="absolute top-1/4 -right-24 w-96 h-96 bg-[#FACC15]/5 blur-[150px] rounded-full -z-10" />
