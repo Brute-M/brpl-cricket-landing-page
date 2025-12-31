@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <>
       {/* Top Registration Ticker */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 z-50 h-9 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black overflow-hidden flex items-center">
         <style>
           {`
             @keyframes marquee {
@@ -45,11 +45,11 @@ const Navbar = () => {
           {[...Array(6)].map((_, i) => (
             <div key={i} className="flex items-center gap-8 px-4">
               <div className="flex items-center gap-2">
-                <span className="font-black uppercase text-sm tracking-wider">
+                <span className="font-black uppercase text-sm tracking-wider whitespace-nowrap">
                   Registration Closing Soon - Limited Slots Available
                 </span>
               </div>
-              <span className="text-sm font-bold">•</span>
+              <span className="text-xs md:text-sm font-bold">•</span>
             </div>
           ))}
         </div>
@@ -57,7 +57,7 @@ const Navbar = () => {
 
       {/* Main Navbar */}
       <motion.nav
-        className={`fixed top-8 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? 'glass py-3' : 'py-6'
+        className={`fixed top-9 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? 'glass py-2' : 'py-4'
           }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -76,7 +76,7 @@ const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="BRPL logo"
-                className="h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(250,204,21,0.3)]"
+                className="h-14 md:h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(250,204,21,0.3)]"
               />
             </button>
 

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, Copy, Check } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import RegistrationForm from './RegistrationForm';
+
+// Lazy load the form to reduce initial bundle size for mobile LCP
+const RegistrationForm = lazy(() => import('./RegistrationForm'));
 
 const HeroSection = () => {
   const [searchParams] = useSearchParams();
@@ -60,7 +62,8 @@ const HeroSection = () => {
         />
       </div>
 
-      {/* Animated particles - Commented out for cleaner view
+      {/* Animated particles - Commented out for cleaner view */}
+      {/*
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -84,8 +87,6 @@ const HeroSection = () => {
         ))}
       </div>
       */}
-
-
 
       {/* Content */}
       <div className="container relative z-10 px-4 mx-auto pt-40 pb-8 md:py-20 mt-4 md:mt-20">
@@ -201,8 +202,6 @@ const HeroSection = () => {
             )} */}
           </div>
 
-
-
           {/* Right Content - Registration Form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -210,7 +209,9 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="w-full max-w-2xl mx-auto lg:ml-auto"
           >
-            <RegistrationForm isEmbedded={true} />
+            <Suspense fallback={<div className="h-[600px] w-full bg-white/10 backdrop-blur-md rounded-2xl animate-pulse" />}>
+              <RegistrationForm isEmbedded={true} />
+            </Suspense>
           </motion.div>
         </div>
       </div>

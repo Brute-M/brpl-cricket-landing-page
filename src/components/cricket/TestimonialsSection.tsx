@@ -12,7 +12,7 @@ const testimonials = [
   {
     quote: "I drive an auto all day. My bat is in the backseat—I hit the nets every evening. BRPL made me believe I wasn't too old or too poor.",
     name: "Suresh Kumar",
-    zone: ",25, Tamil Nadu",
+    zone: "25, Tamil Nadu",
     // image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     rating: 5,
   },
