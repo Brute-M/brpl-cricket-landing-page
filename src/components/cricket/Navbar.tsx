@@ -30,26 +30,20 @@ const Navbar = () => {
     <>
       {/* Top Registration Ticker */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black overflow-hidden">
-        <motion.div
-          className="flex items-center gap-8 py-2 whitespace-nowrap"
-          animate={{ x: [0, -1000] }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 20,
-              ease: "linear",
-            },
-          }}
-        >
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <span className="font-black uppercase text-sm tracking-wider">
-                  Registration Closing Soon - Limited Slots Available
-                </span>
-              </div>
-              <span className="text-sm font-bold">•</span>
+        <style>
+          {`
+            @keyframes marquee {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-marquee {
+              animation: marquee 30s linear infinite;
+            }
+          `}
+        </style>
+        <div className="flex w-max animate-marquee">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="flex items-center gap-8 px-4">
               <div className="flex items-center gap-2">
                 <span className="font-black uppercase text-sm tracking-wider">
                   Registration Closing Soon - Limited Slots Available
@@ -58,7 +52,7 @@ const Navbar = () => {
               <span className="text-sm font-bold">•</span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Main Navbar */}

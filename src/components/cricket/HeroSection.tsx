@@ -95,12 +95,9 @@ const HeroSection = () => {
 
 
             <div className="text-center lg:text-left select-none">
-              {/* Top Group */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-6 md:mb-12"
+              {/* Top Group - Optimized for LCP (No fade-in on H1) */}
+              <div
+                className="mb-6 md:mb-12 animate-in fade-in slide-in-from-left-4 duration-700"
               >
                 <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase">
                   INDIA'S BIGGEST
@@ -111,7 +108,7 @@ const HeroSection = () => {
                 <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-[#FACC15] leading-none mt-2 drop-shadow-lg uppercase">
                   CRICKET TOURNAMENT
                 </h2>
-              </motion.div>
+              </div>
 
               {/* Bottom Group */}
               <motion.div

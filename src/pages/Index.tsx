@@ -19,7 +19,9 @@ const FloatingRegisterButton = lazy(() => import('@/components/cricket/FloatingR
 const Footer = lazy(() => import('@/components/cricket/Footer'));
 
 // Loading fallback component
-const SectionLoader = () => <div className="w-full h-20 bg-transparent animate-pulse" />;
+const SectionLoader = ({ className }: { className?: string }) => (
+  <div className={`w-full bg-transparent animate-pulse md:min-h-[400px] ${className || 'h-96'}`} />
+);
 
 const Index = () => {
   return (
@@ -32,40 +34,40 @@ const Index = () => {
       <main>
         <HeroSection />
 
-        <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader className="h-[600px]" />}>
           <MissionSection />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader className="h-[400px]" />}>
           <NumbersSpeak />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader className="h-[800px]" />}>
           <JourneySection />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader className="h-[600px]" />}>
           <FutureSection />
         </Suspense>
 
         {/* <div id="stats">
-          <Suspense fallback={<SectionLoader />}>
+          <Suspense fallback={<SectionLoader className="h-96" />}>
             <StatsSection />
           </Suspense>
         </div> */}
 
         <div id="testimonials">
-          <Suspense fallback={<SectionLoader />}>
+          <Suspense fallback={<SectionLoader className="h-[600px]" />}>
             <TestimonialsSection />
           </Suspense>
         </div>
 
-        <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader className="h-[500px]" />}>
           <UrgencySection />
         </Suspense>
 
         {/* <div id="why-choose-us">
-          <Suspense fallback={<SectionLoader />}>
+          <Suspense fallback={<SectionLoader className="h-[500px]" />}>
             <FeaturesSection />
           </Suspense>
         </div> */}
@@ -74,13 +76,13 @@ const Index = () => {
         {/* <CoachRegistrationForm /> */}
 
         <div id="faqs">
-          <Suspense fallback={<SectionLoader />}>
+          <Suspense fallback={<SectionLoader className="h-[600px]" />}>
             <FAQSection />
           </Suspense>
         </div>
       </main>
 
-      <Suspense fallback={<SectionLoader />}>
+      <Suspense fallback={<SectionLoader className="h-[400px]" />}>
         <Footer />
       </Suspense>
 
