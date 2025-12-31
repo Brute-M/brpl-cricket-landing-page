@@ -49,6 +49,7 @@ const NumbersSpeak = () => {
                     src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/count-image.png"
                     alt="Cricket Stadium Stats"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                 />
                 {/* Dark overlay for better text readability */}
                 <div className="absolute inset-0 bg-black/20"></div>

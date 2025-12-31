@@ -44,6 +44,7 @@ const UrgencySection = () => {
                     src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/count-image.png"
                     alt="Cricket Stadium"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"></div>

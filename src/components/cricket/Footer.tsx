@@ -16,6 +16,7 @@ const Footer = () => {
           src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/banner-image.png"
           alt="Cricket Stadium"
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
@@ -35,6 +36,7 @@ const Footer = () => {
                   src="/logo.png"
                   alt="BRPL logo"
                   className="h-24 w-auto object-contain drop-shadow-[0_0_15px_rgba(250,204,21,0.3)]"
+                  loading="lazy"
                 />
               </motion.a>
 
