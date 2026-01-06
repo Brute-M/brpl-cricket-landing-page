@@ -56,21 +56,21 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
-  /*
   useEffect(() => {
     const ref = localStorage.getItem('brpl_ref_code');
     if (ref) {
       setFormData(prev => ({ ...prev, referralCodeUsed: ref }));
     }
   }, []);
-  */
 
+  /*
   useEffect(() => {
     const c = localStorage.getItem('brpl_coupon_code');
     if (c) {
       setFormData(prev => ({ ...prev, couponCode: c }));
     }
   }, []);
+  */
 
   const handleNext = () => {
     if (step === 1) {
@@ -101,13 +101,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
       }
       setStep(isAlreadyPaid ? 3 : step + 1);
     } else if (step === 2) {
-      // Allow direct navigation via Next button only if simulating or handled by Payment Handler
-      // But we want to block "Next" until payment is done.
-      // The UI for Step 2 won't have a "Next" button that calls handleNext directly anymore,
-      // it will be the Payment button.
-      // However, we might keep handleNext for "Already Paid" scenario or similar if needed.
-      // For now, let's assume handleNext is NOT used for Step 2 -> Step 3 transition in this flow,
-      // except maybe manually called.
+      setStep(step + 1);
     } else {
       setStep(step + 1);
     }
@@ -779,7 +773,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     </div>
 
                     <div className="space-y-4">
-                      <div className="group">
+                      {/* <div className="group">
                         <label className="block text-sm font-semibold mb-2 text-white">Coupon Code (Optional)</label>
                         <div className="relative">
                           <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
@@ -792,9 +786,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
-                      </div>
+                      </div> */}
 
-                      {/* <div className="group">
+                      <div className="group">
                         <label className="block text-sm font-semibold mb-2 text-white">Referral Code (Optional)</label>
                         <div className="relative">
                           <Target className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#263574] transition-colors" />
@@ -807,7 +801,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                           />
                         </div>
-                      </div> */}
+                      </div>
 
                       <div className="group">
                         <label className="block text-sm font-semibold mb-2 text-white">Email Address (Username)</label>
