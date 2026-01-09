@@ -28,7 +28,7 @@ const futureBenefits = [
     },
     {
         title: "Age-Inclusive Categories",
-        desc: "Whether you're 15 or 35, you compete"
+        desc: "Whether you're 18 or 35, you compete"
     },
     {
         title: "Professional Training Exposure",
