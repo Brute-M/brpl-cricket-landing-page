@@ -1,18 +1,35 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Copy, Check } from 'lucide-react';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import CelebritySlider from './CelebritySlider';
 
 // Lazy load the form to reduce initial bundle size for mobile LCP
 const RegistrationForm = lazy(() => import('./RegistrationForm'));
+
+const backgroundImages = [
+  "banner-image1.png",
+  "akash-banner.png",
+  "manoj-banner1.png",
+  "manoj-banner2.png",
+  "pawan-image.png"
+];
 
 const HeroSection = () => {
   const [searchParams] = useSearchParams();
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   // const BASE_URL = "http://localhost:5000/api";
-  const BASE_URL = "https://brpl.net/api";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // Force show with fallback as requested "show this hardly"
@@ -51,164 +68,122 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative md:min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <img
-          src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/banner-image.png"
-          alt="Cricket Banner"
-          className="absolute inset-0 w-full h-full object-cover object-top"
-          fetchPriority="high"
-        />
-      </div>
-
-      {/* Animated particles - Commented out for cleaner view */}
-      {/*
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-20, 20, -20],
-              x: [-10, 10, -10],
-              opacity: [0.3, 0.7, 0.3],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
+    <section className="relative min-h-screen flex flex-col md:flex md:items-center md:justify-center overflow-x-hidden bg-[#0e0e49] pt-[120px] md:pt-0">
+      {/* Background Image Slider */}
+      <div className="relative w-full h-[50vh] md:absolute md:inset-0 md:h-full overflow-hidden bg-[#0e0e49] shrink-0">
+        <AnimatePresence mode="popLayout">
+          <motion.img
+            key={currentImageIndex}
+            src={backgroundImages[currentImageIndex]}
+            alt="Cricket Banner"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            fetchPriority="high"
           />
-        ))}
+        </AnimatePresence>
+        {/* Dark overlay for better text readability - Desktop only or adjusting opacity */}
+        {/* <div className="absolute inset-0 bg-black/5 md:bg-black/20" /> */}
       </div>
-      */}
 
       {/* Content */}
-      <div className="container relative z-10 px-4 mx-auto pt-40 pb-8 md:py-20 mt-4 md:mt-20">
-        <div className="grid lg:grid-cols-2 gap-0 md:gap-12 items-center">
-          {/* Left Content */}
-          <div className="text-center lg:text-left text-white">
-
-
-            <div className="text-center lg:text-left select-none">
-              {/* Top Group - Optimized for LCP (No fade-in on H1) */}
-              <div
-                className="mb-6 md:mb-12 animate-in fade-in slide-in-from-left-4 duration-700"
-              >
-                <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase">
+      <div className="relative z-10 w-full container mx-auto px-4 pt-8 md:py-12">
+        {/* Title and Subtitle at Top (Centered) */}
+        <div className="text-center text-white mt-12 md:mt-24 mb-8 sm:mb-10 select-none w-full">
+          <div className="mb-4 animate-in fade-in slide-in-from-top-4 duration-700">
+            <motion.div
+              initial={{ boxShadow: '0 0 0px rgba(250, 204, 21, 0.0)', borderColor: 'rgba(250, 204, 21, 0.45)' }}
+              animate={{
+                boxShadow: [
+                  '0 0 0px rgba(250, 204, 21, 0.0)',
+                  '0 0 18px rgba(250, 204, 21, 0.55)',
+                  '0 0 0px rgba(250, 204, 21, 0.0)',
+                ],
+                borderColor: [
+                  'rgba(250, 204, 21, 0.35)',
+                  'rgba(250, 204, 21, 0.9)',
+                  'rgba(250, 204, 21, 0.35)',
+                ],
+              }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-full max-w-xl md:max-w-7xl mx-auto rounded-2xl bg-black/35 backdrop-blur-md px-2 py-2 md:px-6 md:py-4 border"
+            >
+              <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-x-2 md:gap-x-2 gap-y-1 w-full px-2">
+                <h2 className="text-sm md:text-xl lg:text-2xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase whitespace-nowrap">
                   INDIA'S BIGGEST
                 </h2>
-                <h1 className="text-5xl md:text-8xl lg:text-9xl font-black italic text-[#FACC15] leading-none md:leading-[0.8] mt-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase">
+                <h1 className="text-lg md:text-3xl lg:text-5xl font-black italic text-[#FACC15] leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase whitespace-nowrap">
                   T10 TENNIS
                 </h1>
-                <h2 className="text-2xl md:text-5xl lg:text-6xl font-black italic text-[#FACC15] leading-none mt-2 drop-shadow-lg uppercase">
+                <h2 className="text-sm md:text-xl lg:text-2xl font-black italic text-[#FACC15] leading-none drop-shadow-lg uppercase whitespace-nowrap">
                   CRICKET TOURNAMENT
                 </h2>
-              </div>
 
-              {/* Bottom Group */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-8 space-y-3"
-              >
-                <p className="text-lg md:text-3xl lg:text-4xl font-black leading-none drop-shadow-md">
+                {/* Separator for desktop */}
+                <div className="hidden md:block h-8 w-0.5 bg-white/30 mx-1"></div>
+
+                <p className="text-[11px] md:text-sm lg:text-lg font-black leading-snug drop-shadow-md md:whitespace-nowrap flex items-center gap-1.5">
                   <span className="text-white">Your Gully Cricket Days </span>
                   <span className="text-[#FACC15] uppercase">ARE OVER</span>
+                  <span className="text-white">-</span>
+                  <span className="text-white">Now Play in Real Stadiums</span>
                 </p>
-                <p className="text-base md:text-2xl lg:text-3xl font-bold text-white/90 drop-shadow-sm uppercase">
-                  Now Play in Real Stadiums
-                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
 
-                <motion.button
-                  onClick={scrollToForm}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="mt-6 px-10 py-4 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black text-xl md:text-2xl rounded-lg shadow-[0_10px_30px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group"
-                >
-                  <span className="relative z-10">Register Now</span>
-                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                </motion.button>
-              </motion.div>
-            </div>
+        <div className="grid lg:grid-cols-2 gap-5 md:gap-10 lg:gap-12 items-start md:items-center">
+          {/* Left Content - Celebrity Slider (Hidden/Placeholder) */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="hidden lg:block order-2 lg:order-1 w-full max-w-xs sm:max-w-sm md:max-w-lg mx-auto lg:mx-0 h-[250px] sm:h-[300px] md:h-[420px] lg:h-[520px]"
+          >
+            {/* <CelebritySlider /> */}
+          </motion.div>
 
+          {/* Right Content - Title/Subtitle + Registration Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="order-1 lg:order-2 w-full max-w-2xl mx-auto lg:ml-auto"
+          >
+
+            {/* Coupon Code (if available) */}
             {couponCode && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="mt-8 mb-8 md:mb-0 inline-flex flex-col items-center lg:items-start w-full lg:w-auto"
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mb-4 inline-flex flex-col items-center lg:items-start w-full lg:w-auto"
               >
-                <p className="text-[#FACC15] text-xs md:text-sm mb-2 md:mb-3 font-black tracking-[0.2em] uppercase drop-shadow-sm">
+                <p className="text-[#FACC15] text-xs md:text-sm mb-2 font-black tracking-[0.2em] uppercase drop-shadow-sm">
                   ★ Your Exclusive Coupon Code ★
                 </p>
-                <div className="flex items-center gap-2 md:gap-3 bg-white/10 backdrop-blur-xl border-2 border-[#FACC15] p-1.5 md:p-2 pr-3 md:pr-4 rounded-xl shadow-[0_0_25px_rgba(250,204,21,0.3)] group transition-all hover:bg-white/15 hover:shadow-[0_0_40px_rgba(250,204,21,0.5)]">
+                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border-2 border-[#FACC15] p-1.5 pr-3 rounded-xl shadow-[0_0_25px_rgba(250,204,21,0.3)] group transition-all hover:bg-white/15">
                   <button
                     onClick={copyToClipboard}
-                    className="bg-[#FACC15] text-black px-3 py-1.5 md:px-6 md:py-2.5 rounded-lg font-mono font-black italic tracking-widest text-lg md:text-2xl shadow-inner cursor-pointer hover:bg-yellow-400 transition-colors"
+                    className="bg-[#FACC15] text-black px-3 py-1.5 rounded-lg font-mono font-black italic tracking-widest text-sm md:text-lg shadow-inner cursor-pointer hover:bg-yellow-400 transition-colors"
                   >
                     {couponCode}
                   </button>
                   <button
                     onClick={copyToClipboard}
-                    className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
+                    className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
                     title="Copy Code"
                   >
-                    {copied ? <Check className="w-8 h-8 text-green-400" /> : <Copy className="w-8 h-8 text-white/90 group-hover:text-[#FACC15]" />}
+                    {copied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5 text-white/90 group-hover:text-[#FACC15]" />}
                   </button>
                 </div>
-                <p className="text-white/80 text-[10px] md:text-xs mt-3 font-bold uppercase tracking-tight">
-                  Applied at registration Step 3
-                </p>
               </motion.div>
             )}
 
-
-            {/* {referralCode && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="mt-8 mb-8 md:mb-0 inline-flex flex-col items-center lg:items-start"
-              >
-                <p className="text-gray-300 text-sm mb-2 font-medium tracking-wide uppercase">
-                  Your Exclusive Referral Code
-                </p>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 p-2 pr-4 rounded-xl shadow-2xl group transition-all hover:bg-white/15">
-                  <button
-                    onClick={copyToClipboard}
-                    className="bg-[#263574] text-white px-4 py-2 rounded-lg font-mono font-bold tracking-wider text-xl shadow-inner cursor-pointer hover:bg-[#1f2d5f] transition-colors"
-                  >
-                    {referralCode}
-                  </button>
-                  <button
-                    onClick={copyToClipboard}
-                    className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
-                    title="Copy Code"
-                  >
-                    {copied ? <Check className="w-6 h-6 text-green-400" /> : <Copy className="w-6 h-6 text-white/80 group-hover:text-white" />}
-                  </button>
-                </div>
-                <p className="text-white/60 text-xs mt-2 max-w-[300px]">
-                  Use this code during registration (Step 3) to unlock special benefits.
-                </p>
-              </motion.div>
-            )} */}
-          </div>
-
-          {/* Right Content - Registration Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="w-full max-w-2xl mx-auto lg:ml-auto"
-          >
+            {/* Registration Form */}
             <Suspense fallback={<div className="h-[600px] w-full bg-white/10 backdrop-blur-md rounded-2xl animate-pulse" />}>
               <RegistrationForm isEmbedded={true} />
             </Suspense>
@@ -216,15 +191,16 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+
+      {/* Scroll indicator - Hidden on mobile if needed, or adjusted */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.5, repeat: Infinity }}
       >
         <ChevronDown className="w-8 h-8 text-primary/60" />
       </motion.div>
-    </section>
+    </section >
   );
 };
 

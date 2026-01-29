@@ -6,12 +6,15 @@ import SEO from '@/components/SEO';
 // Lazy load components below the fold to improve initial bundle size and performance
 const MissionSection = lazy(() => import('@/components/cricket/MissionSection'));
 const NumbersSpeak = lazy(() => import('@/components/cricket/NumbersSpeak'));
+const EventGallerySection = lazy(() => import('@/components/cricket/EventGallerySection'));
 const JourneySection = lazy(() => import('@/components/cricket/JourneySection'));
-const FutureSection = lazy(() => import('@/components/cricket/FutureSection'));
-const StatsSection = lazy(() => import('@/components/cricket/StatsSection'));
-const FeaturesSection = lazy(() => import('@/components/cricket/FeaturesSection'));
+// const FutureSection = lazy(() => import('@/components/cricket/FutureSection'));
+// const StatsSection = lazy(() => import('@/components/cricket/StatsSection'));
+// const FeaturesSection = lazy(() => import('@/components/cricket/FeaturesSection'));
 const TestimonialsSection = lazy(() => import('@/components/cricket/TestimonialsSection'));
+const RecentRegistrationsSection = lazy(() => import('@/components/cricket/RecentRegistrationsSection'));
 const UrgencySection = lazy(() => import('@/components/cricket/UrgencySection'));
+const TeamsSection = lazy(() => import('@/components/cricket/TeamsSection'));
 // const RegistrationForm = lazy(() => import('@/components/cricket/RegistrationForm'));
 // const CoachRegistrationForm = lazy(() => import('@/components/cricket/CoachRegistrationForm'));
 const FAQSection = lazy(() => import('@/components/cricket/FAQSection'));
@@ -39,16 +42,24 @@ const Index = () => {
         </Suspense>
 
         <Suspense fallback={<SectionLoader className="h-[400px]" />}>
+          <TeamsSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader className="h-[400px]" />}>
           <NumbersSpeak />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader className="h-[500px]" />}>
+          <EventGallerySection />
         </Suspense>
 
         <Suspense fallback={<SectionLoader className="h-[800px]" />}>
           <JourneySection />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader className="h-[600px]" />}>
+        {/* <Suspense fallback={<SectionLoader className="h-[600px]" />}>
           <FutureSection />
-        </Suspense>
+        </Suspense> */}
 
         {/* <div id="stats">
           <Suspense fallback={<SectionLoader className="h-96" />}>
@@ -61,6 +72,10 @@ const Index = () => {
             <TestimonialsSection />
           </Suspense>
         </div>
+
+        <Suspense fallback={<SectionLoader className="h-[400px]" />}>
+          <RecentRegistrationsSection />
+        </Suspense>
 
         <Suspense fallback={<SectionLoader className="h-[500px]" />}>
           <UrgencySection />

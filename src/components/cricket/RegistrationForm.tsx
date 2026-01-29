@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Phone, Calendar, Target, Send, CheckCircle, CreditCard, Upload, ArrowRight, ArrowLeft, ChevronDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-import { MapPin, Building2, Square, Swords, CircleDot, Shield, Zap } from 'lucide-react';
+import { toast as sonnerToast } from '@/components/ui/sonner';
+import { MapPin, Building2, Square, Swords, CircleDot, Shield, Zap, CloudUpload } from 'lucide-react';
 
 interface RegistrationFormProps {
   isEmbedded?: boolean;
@@ -41,8 +41,11 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   // const BASE_URL = "http://localhost:5000";
-  const BASE_URL = "https://brpl.net/api";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
 
   const roles = ['Batsman', 'Bowler', 'Wicket Keeper', 'All-Rounder'];
@@ -198,6 +201,38 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        variant: "destructive",
+        title: "File Too Large",
+        description: "Please upload an image smaller than 5MB.",
+      });
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Invalid File Type",
+        description: "Please upload an image file (JPEG, PNG, GIF).",
+      });
+      return;
+    }
+
+    setProfileImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const loadRazorpay = () => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -227,7 +262,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
       const orderResponse = await fetch(`${BASE_URL}/api/payment/order-landing`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 1499 }), // Amount in INR (1499.00)
+        body: JSON.stringify({ amount: 1499 }), // Amount in INR
       });
       const orderData = await orderResponse.json();
 
@@ -265,7 +300,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
               setFormData((prev) => ({
                 ...prev,
                 paymentId: response.razorpay_payment_id,
-                paymentAmount: verifyData.amount || 1499 // Fallback to 1499 if not returned, or use orderData.amount / 100 if available
+                paymentAmount: verifyData.amount || 1499 // Fallback to 1499 if not returned
               }));
               setStep(3); // Move to Step 3
             } else {
@@ -355,7 +390,62 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
       const result = await response.json();
 
       if (response.ok) {
-        navigate('/thank-you');
+        // Store token for authenticated requests (e.g., image upload)
+        if (result.data?.token) {
+          localStorage.setItem('token', result.data.token);
+
+          // Upload image if selected
+          if (profileImage) {
+            try {
+              setIsUploadingImage(true);
+              const formDataImage = new FormData();
+              formDataImage.append('profileImage', profileImage);
+
+              const imageUploadResponse = await fetch(`${BASE_URL}/auth/upload-profile-image`, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${result.data.token}`,
+                },
+                body: formDataImage,
+              });
+
+              if (imageUploadResponse.ok) {
+                window.dispatchEvent(new CustomEvent('brpl:user-image-uploaded'));
+              }
+            } catch (imgError) {
+              console.error("Failed to upload image silently", imgError);
+            } finally {
+              setIsUploadingImage(false);
+            }
+          }
+        }
+
+        // Dispatch custom event to refresh recent registrations
+        window.dispatchEvent(new CustomEvent('brpl:user-registered', {
+          detail: { name: formData.name, role: formData.role }
+        }));
+
+        // shadcn toast (default position)
+        toast({
+          title: "Registration Successful",
+          description: `${formData.name} has registered successfully.`,
+          duration: 3000,
+        });
+
+        // Left-side notification using Sonner
+        sonnerToast.success(`${formData.name} registered successfully!`, {
+          position: "bottom-left",
+        });
+
+        setTimeout(() => {
+          navigate('/thank-you', {
+            state: {
+              name: formData.name,
+              role: formData.role,
+              userImage: previewImage // Pass the local preview to thank you page
+            }
+          });
+        }, 1000);
       } else {
         toast({
           variant: "destructive",
@@ -534,6 +624,8 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                         </div>
                       </div>
 
+
+
                       <div className="group">
                         <label className="block text-sm font-semibold mb-2 text-white">Full Name</label>
                         <div className="relative">
@@ -691,6 +783,8 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                           I agree to the <a href="#" className="text-[#FACC15] hover:underline font-semibold">Terms and Conditions</a>
                         </label>
                       </div>
+
+
                     </div>
 
                     <button
@@ -773,6 +867,46 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                     </div>
 
                     <div className="space-y-4">
+                      <div className="group">
+                        <label className="block text-sm font-semibold mb-2 text-white">Profile Photo</label>
+                        <div className="relative">
+                          <label className={`
+                            relative flex flex-col items-center justify-center w-full min-h-[200px] 
+                            rounded-xl border-2 border-dashed transition-all cursor-pointer overflow-hidden
+                            ${previewImage ? 'border-[#263574] bg-white/5' : 'border-gray-300 bg-white hover:bg-gray-50'}
+                          `}>
+                            {previewImage ? (
+                              <div className="w-full h-full p-4 flex flex-col items-center">
+                                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#263574] mb-4 shadow-lg">
+                                  <img src={previewImage} alt="Profile" className="w-full h-full object-cover" />
+                                </div>
+                                <p className="text-[#263574] font-semibold">Click to change photo</p>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center p-6">
+                                <div className="w-16 h-16 mb-4 rounded-full bg-[#263574]/5 flex items-center justify-center">
+                                  <CloudUpload className="w-8 h-8 text-[#263574]" />
+                                </div>
+                                <p className="mb-2 text-lg font-semibold text-gray-700">
+                                  Click to upload
+                                </p>
+                                <p className="mb-2 text-sm text-gray-500">
+                                  or drag and drop
+                                </p>
+                                <p className="text-xs text-gray-400 mt-2">
+                                  PNG, JPG up to 5MB
+                                </p>
+                              </div>
+                            )}
+                            <input
+                              type="file"
+                              className="hidden"
+                              accept="image/*"
+                              onChange={handleImageChange}
+                            />
+                          </label>
+                        </div>
+                      </div>
                       {/* <div className="group">
                         <label className="block text-sm font-semibold mb-2 text-white">Coupon Code (Optional)</label>
                         <div className="relative">
@@ -863,7 +997,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
             </form>
           </motion.div>
         </div>
-      </section>
+      </section >
 
     </>
   );

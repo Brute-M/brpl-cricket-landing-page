@@ -36,7 +36,18 @@ const JourneySection = () => {
     };
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
+        <section className="py-24 relative overflow-hidden">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+                <img
+                    src="https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/count-image.png"
+                    alt="Cricket Stadium"
+                    className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e49]/90 via-black/50 to-transparent"></div>
+            </div>
+
             <div className="container mx-auto px-4 relative z-10">
                 <motion.div
                     className="text-center mb-20"
@@ -45,7 +56,7 @@ const JourneySection = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h2 className="text-4xl md:text-6xl font-black italic text-[#263574] leading-tight uppercase tracking-tight">
+                    <h2 className="text-4xl md:text-6xl font-black italic text-white leading-tight uppercase tracking-tight drop-shadow-lg">
                         Your Journey to <span className="text-[#FACC15] drop-shadow-sm">Glory</span>
                     </h2>
 
@@ -55,14 +66,14 @@ const JourneySection = () => {
                     {steps.map((step, index) => (
                         <motion.div
                             key={index}
-                            className="relative bg-gray-50 border border-gray-100 rounded-3xl p-8 pt-12 shadow-xl hover:shadow-2xl transition-all group"
+                            className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 pt-12 shadow-xl hover:shadow-2xl transition-all group"
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                         >
                             {/* Step Number Badge */}
-                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#FF5C5C] text-white rounded-full flex items-center justify-center font-black text-3xl shadow-lg border-4 border-white">
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#FACC15] text-black rounded-full flex items-center justify-center font-black text-3xl shadow-lg border-4 border-white">
                                 {index + 1}
                             </div>
 
@@ -71,11 +82,11 @@ const JourneySection = () => {
                                     {step.icon}
                                 </div>
 
-                                <h3 className="text-2xl font-black text-[#263574] uppercase tracking-tight">
+                                <h3 className="text-2xl font-black text-white uppercase tracking-tight drop-shadow-md">
                                     {step.title}
                                 </h3>
 
-                                <p className="text-gray-600 font-medium leading-relaxed">
+                                <p className="text-gray-200 font-medium leading-relaxed">
                                     {step.description}
                                 </p>
 
@@ -105,9 +116,9 @@ const JourneySection = () => {
                 </motion.div>
             </div>
 
-            {/* Subtle Patterns */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gray-50 rounded-full -translate-y-1/2 translate-x-1/2 -z-0" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gray-50 rounded-full translate-y-1/2 -translate-x-1/2 -z-0" />
+            {/* Decorative Shimmer/Glow */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FACC15]/50 to-transparent animate-shimmer"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FACC15]/50 to-transparent animate-shimmer"></div>
         </section>
     );
 };

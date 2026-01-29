@@ -84,9 +84,9 @@ const Navbar = () => {
             <div className="hidden md:flex items-center gap-4">
               <button
                 onClick={() => scrollToSection('#registration')}
-                className="px-6 py-2 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group border-none"
+                className="px-10 py-3 bg-gradient-to-r from-[#FACC15] to-[#f59e0b] text-black font-black rounded-lg shadow-[0_4px_15px_rgba(250,204,21,0.4)] uppercase tracking-wider transition-all duration-300 relative overflow-hidden group border-none"
               >
-                <span className="relative z-10">Register Now</span>
+                <span className="relative z-10 text-lg">Register Now</span>
                 <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </button>
             </div>

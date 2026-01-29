@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Using local backend for dev, ideally this comes from env
 // const BASE_URL = "http://localhost:5000";
-const BASE_URL = "https://brpl.net/api";
+const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
 export const TrackingHandler = () => {
     const [searchParams] = useSearchParams();

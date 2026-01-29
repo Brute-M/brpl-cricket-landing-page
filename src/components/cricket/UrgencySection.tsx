@@ -3,15 +3,24 @@ import { AlertTriangle, Clock, Users, Zap, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const UrgencySection = () => {
-    const [timeLeft, setTimeLeft] = useState({ days: 12, hours: 0, minutes: 0, seconds: 0 });
+    const [timeLeft, setTimeLeft] = useState({ days: 10, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        // Target date set to January 11, 2026 00:00 AM IST (End of Jan 10)
-        const targetDate = new Date('2026-01-11T00:00:00+05:30');
+        // Rolling 10-day countdown:
+        // - Start with 10 days from now
+        // - Whenever the timer hits 0, automatically extend by another 10 days
+        const TEN_DAYS_MS = 10 * 24 * 60 * 60 * 1000;
+        let targetDate = new Date(Date.now() + TEN_DAYS_MS);
 
         const calculateTimeLeft = () => {
             const now = new Date();
-            const difference = targetDate.getTime() - now.getTime();
+            let difference = targetDate.getTime() - now.getTime();
+
+            // If countdown finished or went negative, push target 10 days ahead
+            if (difference <= 0) {
+                targetDate = new Date(Date.now() + TEN_DAYS_MS);
+                difference = targetDate.getTime() - Date.now();
+            }
 
             if (difference > 0) {
                 setTimeLeft({
@@ -20,8 +29,6 @@ const UrgencySection = () => {
                     minutes: Math.floor((difference / 1000 / 60) % 60),
                     seconds: Math.floor((difference / 1000) % 60)
                 });
-            } else {
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             }
         };
 
