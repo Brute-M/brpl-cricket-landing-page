@@ -2,91 +2,119 @@ import { Upload } from 'lucide-react';
 
 interface BRPLShareCardProps {
   userName: string;
-  userRole: string;
+  userRole: string; // Kept for interface compatibility but not used in this specific design
+  city: string;
   userImage: string | null;
   onImageUpload?: (imageUrl: string) => void;
 }
 
-const BRPLShareCard = ({ userName, userRole, userImage, onImageUpload }: BRPLShareCardProps) => {
-  // Get current year dynamically
-  const currentYear = new Date().getFullYear();
+const BRPLShareCard = ({ userName, city, userImage, onImageUpload }: BRPLShareCardProps) => { // Removed userRole from destructuring as it's unused
 
   return (
     <div className="w-full flex justify-center">
       <div
-        className="relative rounded-[24px] overflow-hidden shadow-2xl border-4 border-[#FACC15]"
-        style={{ width: 360, height: 420 }} // Adjusted height to match aspect ratio better
+        className="relative shadow-2xl overflow-hidden group"
+        style={{ width: 400, height: 400 }} // Square aspect ratio as per image
       >
-        <div className="relative w-full h-full flex flex-col items-center bg-[#050A18]">
+        {/* Background Image */}
+        <div className="absolute inset-0 bg-black">
+          <img
+            src="/stadium_bg.png"
+            alt="Stadium Background"
+            className="w-full h-full object-cover opacity-90"
+          />
+          {/* Overlay gradient to darken bottom for text readability if needed */}
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent"></div>
+        </div>
 
-          {/* Background Pattern - Vertical Stripes */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: 'repeating-linear-gradient(90deg, #050A18, #050A18 40px, #0A1226 40px, #0A1226 80px)'
-          }}></div>
+        {/* Content Container */}
+        <div className="relative z-10 w-full h-full flex flex-col">
 
-          {/* Top Right Corner Decoration - dark curve */}
-          <div className="absolute -top-16 -right-16 w-32 h-32 bg-[#0A1226] rounded-full opacity-50 blur-xl"></div>
-          {/* A sharper curve if needed, but the image shows a subtle dark overlay or just the stripe pattern continuing. 
-              Actually, top right has a golden/brownish glow or shape. 
-              Let's add a subtle glow. 
-          */}
-          <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#FACC15]/10 rounded-full blur-xl"></div>
+          {/* Top Section */}
+          <div className="flex justify-between items-start p-4">
+            {/* Logo */}
+            <div className="w-16">
+              <img src="/logo.png" alt="BRPL Logo" className="w-full object-contain drop-shadow-md" />
+            </div>
 
+            {/* Officially Registered Badge */}
+            <div className="bg-[#B91C1C] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider skew-x-[-10deg] shadow-lg border-l-4 border-[#FACC15]">
+              <span className="skew-x-[10deg] block">Officially Registered</span>
+            </div>
+          </div>
 
-          {/* Content */}
-          <div className="relative z-10 flex flex-col items-center w-full h-full pt-8 pb-6 px-4 text-center">
+          {/* Top Text */}
+          <div className="absolute top-4 left-0 w-full text-center mt-6 z-20">
+            <h2 className="text-[#FACC15] text-lg font-bold font-sans tracking-tight leading-tight drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+              Maine Register <br />
+              <span className="text-white">Kar Liya... Tum Kab Karoge? 👀</span>
+            </h2>
+          </div>
 
-            {/* Header */}
-            <h3 className="text-white text-[10px] font-bold tracking-[0.1em] uppercase">
-              BEYOND REACH PREMIER LEAGUE
-            </h3>
-            <p className="text-[#FACC15] text-[10px] font-bold mt-1">
-              {currentYear} Season
-            </p>
-            <p className="text-white/30 text-[9px] tracking-[0.1em] uppercase mt-4 mb-6 font-medium">
-              OFFICIAL PLAYER CARD
-            </p>
-
-            {/* Main Title */}
-            <h1 className="text-[#FACC15] text-[22px] font-black uppercase leading-tight mb-2 tracking-wide font-sans">
-              REGISTRATION SUCCESSFUL!
-            </h1>
-            <p className="text-white text-sm font-normal mb-8">
-              Welcome to the BRPL Family
-            </p>
-
-            {/* Central Circle Image */}
-            <div className="relative mb-auto group cursor-pointer">
-              <div className="w-[100px] h-[100px] rounded-full border-2 border-[#FACC15] p-1 bg-[#050A18] flex items-center justify-center overflow-hidden relative mx-auto">
-                {/* Inner yellow ring visual tweak if needed, usually just border is enough */}
-                <div className="w-full h-full rounded-full overflow-hidden bg-black/40 flex items-center justify-center">
-                  {userImage ? (
-                    <img
-                      src={userImage}
-                      alt={userName}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center text-[#FACC15]/80">
-                      <Upload className="w-6 h-6 mb-1" />
-                      <span className="text-[7px] uppercase font-bold">Upload</span>
-                    </div>
-                  )}
+          {/* User Image (Middle-Bottom) */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[75%] flex items-end justify-center overflow-hidden pointer-events-none">
+            {userImage ? (
+              <img
+                src={userImage}
+                alt={userName}
+                className="h-full w-auto object-cover object-bottom"
+                style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
+              />
+            ) : (
+              // Placeholder if no image
+              <div className="h-full w-2/3 bg-gray-600/30 backdrop-blur-sm border-2 border-white/20 rounded-t-3xl flex items-center justify-center pointer-events-auto cursor-pointer group-hover:bg-gray-600/40 transition-colors" onClick={() => document.getElementById('image-upload')?.click()}>
+                <div className="flex flex-col items-center text-white/70">
+                  <Upload className="w-10 h-10 mb-2" />
+                  <span className="text-xs uppercase font-bold">Upload Photo</span>
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Overlays */}
+          <div className="mt-auto w-full flex flex-col items-center pb-0">
+
+            {/* Strip: Next Match Stadium Me */}
+            <div className="w-full bg-gradient-to-r from-transparent via-black/80 to-transparent py-1 backdrop-blur-sm mb-1">
+              <h1 className="text-white text-xl font-black italic uppercase text-center tracking-wide leading-none drop-shadow-lg">
+                NEXT MATCH <span className="text-[#FACC15]">STADIUM ME. 🔥</span>
+              </h1>
+            </div>
+
+            {/* City */}
+            <div className="flex items-center justify-center gap-1.5 bg-black/60 px-4 py-0.5 rounded-full backdrop-blur-md border border-white/10 mb-1">
+              <div className="text-[#FACC15]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
+                  <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <p className="text-white text-xs font-bold uppercase tracking-wide">
+                From: <span className="text-white">{city}</span>
+              </p>
+            </div>
+
+
+            {/* Officially registered text */}
+            <p className="text-white text-[10px] font-medium tracking-wider uppercase mb-2 drop-shadow-md bg-black/40 px-2 rounded-sm">
+              Officially registered for BRPL-2026
+            </p>
+
+            {/* Bottom Red Footer Strip */}
+            <div className="w-full bg-[#B91C1C] py-1.5 flex justify-center items-center shadow-[0_-4px_10px_rgba(0,0,0,0.5)] z-20 border-t border-[#FACC15]/50">
+              <div className="flex items-center gap-2">
+                {/* Cricket Ball Icon (Simple SVG) */}
+                <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center shadow-inner">
+                  <div className="w-full h-[1px] bg-red-600 rotate-45 transform"></div>
+                  <div className="absolute w-[12px] h-[12px] border border-red-600 rounded-full"></div>
+                </div>
+                <p className="text-white text-[10px] font-bold uppercase tracking-wider">
+                  Register Now | <span className="font-normal opacity-90">cricket.brpl.net</span>
+                </p>
               </div>
             </div>
 
-            {/* Footer Name Section */}
-            <div className="mt-8 mb-2">
-              <p className="text-white text-lg">
-                Welcome, <span className="font-bold uppercase text-white">{userName}</span>
-              </p>
-              <p className="text-white/70 text-[11px] mt-1 font-light">
-                Your BRPL Journey Begins Now
-              </p>
-            </div>
-
           </div>
+
         </div>
       </div>
     </div>

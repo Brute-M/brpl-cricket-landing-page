@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const teams = [
     {
@@ -28,6 +30,14 @@ const teams = [
 ];
 
 const TeamsSection = () => {
+    const [emblaRef] = useEmblaCarousel({
+        loop: true,
+        align: 'start',
+        slidesToScroll: 1
+    }, [
+        Autoplay({ delay: 3000, stopOnInteraction: false })
+    ]);
+
     return (
         <section className="py-20 bg-[#0e0e49] overflow-hidden">
             <div className="container mx-auto px-4">
@@ -35,28 +45,28 @@ const TeamsSection = () => {
                     Teams <span className="text-[#FACC15]">Playing</span>
                 </h2>
 
-                <div className="overflow-x-auto lg:overflow-x-visible scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex flex-nowrap justify-start lg:justify-center gap-6 sm:gap-8 lg:gap-10 min-w-max lg:min-w-0 lg:w-full pb-6 px-2">
+                <div className="relative overflow-hidden" ref={emblaRef}>
+                    <div className="flex touch-pan-y">
                         {teams.map((team, index) => (
-                            <motion.div
+                            <div
                                 key={team.name}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="flex flex-col items-center group flex-shrink-0 snap-center"
+                                className="flex-[0_0_50%] sm:flex-[0_0_33.33%] lg:flex-[0_0_16.666%] min-w-0 px-3 sm:px-4"
                             >
-                                <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-44 lg:h-44 mb-4 sm:mb-6 rounded-full flex items-center justify-center p-4 border-4 border-white group-hover:border-[#FACC15] transition-all duration-300 transform group-hover:-translate-y-2 bg-white/5 backdrop-blur-sm shadow-xl">
-                                    <img
-                                        src={team.logo}
-                                        alt={team.name}
-                                        className="w-full h-full object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] scale-110"
-                                    />
-                                </div>
-                                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white text-center uppercase tracking-wide drop-shadow-md">
-                                    {team.name}
-                                </h3>
-                            </motion.div>
+                                <motion.div
+                                    className="flex flex-col items-center group cursor-grab active:cursor-grabbing"
+                                >
+                                    <div className="relative w-32 h-32 sm:w-40 sm:h-40 xl:w-44 xl:h-44 mb-4 sm:mb-6 rounded-full flex items-center justify-center p-4 border-4 border-white group-hover:border-[#FACC15] transition-all duration-300 transform group-hover:-translate-y-2 bg-white/5 backdrop-blur-sm shadow-xl">
+                                        <img
+                                            src={team.logo}
+                                            alt={team.name}
+                                            className="w-full h-full object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)] scale-110"
+                                        />
+                                    </div>
+                                    <h3 className="text-sm sm:text-lg lg:text-xl font-bold text-white text-center uppercase tracking-wide drop-shadow-md">
+                                        {team.name}
+                                    </h3>
+                                </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>

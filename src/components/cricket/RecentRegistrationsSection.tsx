@@ -112,11 +112,11 @@ const RecentRegistrationsSection = () => {
           <p className="text-sm md:text-base text-white/70 mt-3 max-w-xl mx-auto">
             These players have just secured their spot in BRPL. Will you be next?
           </p>
-          {isFallback && (
+          {/* {isFallback && (
             <p className="text-[11px] md:text-xs text-white/50 mt-2">
               Showing sample registrations (live feed will appear automatically).
             </p>
-          )}
+          )} */}
         </motion.div>
 
         <div className="relative">

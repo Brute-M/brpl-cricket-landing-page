@@ -44,9 +44,10 @@ const EventGallerySection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-5xl font-black text-black uppercase tracking-wider">
-            Event Gallery
+          <h2 className="text-3xl md:text-5xl font-black text-[#263574] uppercase tracking-wider">
+            EVENT <span className="text-[#FACC15]">GALLERY</span>
           </h2>
+          <div className="w-24 h-1.5 bg-[#FACC15] mx-auto mt-6 rounded-full" />
         </motion.div>
 
         {/* Auto-sliding Collage Carousel */}

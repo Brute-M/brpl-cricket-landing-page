@@ -356,6 +356,7 @@ const ThankYou = () => {
                                     <BRPLShareCard
                                         userName={name}
                                         userRole={role}
+                                        city={state?.city || "Patna"}
                                         userImage={userImage}
                                         onImageUpload={() => { }}
                                     />

@@ -442,6 +442,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
             state: {
               name: formData.name,
               role: formData.role,
+              city: formData.city,
               userImage: previewImage // Pass the local preview to thank you page
             }
           });
