@@ -46,7 +46,7 @@ const TeamsSection = () => {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="flex flex-col items-center group flex-shrink-0 snap-center"
                             >
-                                <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-44 lg:h-44 mb-4 sm:mb-6 rounded-full flex items-center justify-center p-4 border-4 border-white/10 group-hover:border-[#FACC15] transition-all duration-300 transform group-hover:-translate-y-2 bg-white/5 backdrop-blur-sm shadow-xl">
+                                <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-44 lg:h-44 mb-4 sm:mb-6 rounded-full flex items-center justify-center p-4 border-4 border-white group-hover:border-[#FACC15] transition-all duration-300 transform group-hover:-translate-y-2 bg-white/5 backdrop-blur-sm shadow-xl">
                                     <img
                                         src={team.logo}
                                         alt={team.name}

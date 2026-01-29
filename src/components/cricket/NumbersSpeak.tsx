@@ -3,37 +3,37 @@ import { Trophy, Map, Video, Users, Zap, Target } from 'lucide-react';
 
 const stats = [
     {
-        icon: <Trophy className="w-8 h-8 text-yellow-500" />,
+        icon: <Trophy className="w-12 h-12 text-yellow-500" />,
         value: '₹3 Cr',
         label: 'Total Prize Pool',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
-        icon: <Map className="w-8 h-8 text-blue-400" />,
+        icon: <Map className="w-12 h-12 text-blue-400" />,
         value: '28+8',
         label: 'States + UTs',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
-        icon: <Video className="w-8 h-8 text-purple-400" />,
+        icon: <Video className="w-12 h-12 text-purple-400" />,
         value: '100%',
         label: 'Remote Audition',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
-        icon: <Users className="w-8 h-8 text-indigo-400" />,
+        icon: <Users className="w-12 h-12 text-indigo-400" />,
         value: 'All Ages',
         label: 'U-18, U-19, U-24, U-40',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
-        icon: <Zap className="w-8 h-8 text-orange-400" />,
+        icon: <Zap className="w-12 h-12 text-orange-400" />,
         value: '1,000+',
         label: 'Players Registered',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
     },
     {
-        icon: <Target className="w-8 h-8 text-pink-400" />,
+        icon: <Target className="w-12 h-12 text-pink-400" />,
         value: '0 Bias',
         label: 'Pure Skill Selection',
         color: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FACC15] to-orange-500'
@@ -81,7 +81,7 @@ const NumbersSpeak = () => {
                             <div className="mb-6 transform group-hover:scale-110 transition-transform">
                                 {stat.icon}
                             </div>
-                            <div className={`text-2xl md:text-3xl font-black italic mb-2 ${stat.color} drop-shadow-sm brightness-75`}>
+                            <div className={`text-2xl md:text-3xl font-black mb-2 ${stat.color} drop-shadow-sm brightness-75`}>
                                 {stat.value}
                             </div>
                             <div className="text-blue-900 font-bold uppercase tracking-tight text-[10px] md:text-xs">
