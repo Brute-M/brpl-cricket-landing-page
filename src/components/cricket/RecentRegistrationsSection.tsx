@@ -20,11 +20,11 @@ const API_BASE_URL = BASE_URL.endsWith('/api') ? BASE_URL : BASE_URL + '/api';
 const UPLOADS_BASE = BASE_URL.replace(/\/api\/?$/, "") + "/uploads";
 
 const STATIC_FALLBACK_USERS: RecentUser[] = [
-  { fname: "Aman", lname: "Kumar", state: "Delhi" },
-  { fname: "Rahul", lname: "Singh", state: "Uttar Pradesh" },
-  { fname: "Sanjay", lname: "Verma", state: "Rajasthan" },
-  { fname: "Vikas", lname: "Yadav", state: "Haryana" },
-  { fname: "Arjun", lname: "Sharma", state: "Punjab" },
+  { fname: "Aman", lname: "Kumar", state: "Delhi", profileImage: "/dummy_player.png" },
+  { fname: "Rahul", lname: "Singh", state: "Uttar Pradesh", profileImage: "/dummy_player.png" },
+  { fname: "Sanjay", lname: "Verma", state: "Rajasthan", profileImage: "/dummy_player.png" },
+  { fname: "Vikas", lname: "Yadav", state: "Haryana", profileImage: "/dummy_player.png" },
+  { fname: "Arjun", lname: "Sharma", state: "Punjab", profileImage: "/dummy_player.png" },
 ];
 
 const RecentRegistrationsSection = () => {
@@ -136,6 +136,9 @@ const RecentRegistrationsSection = () => {
                   if (imgPath.startsWith("http")) {
                     // Full URL (e.g., S3 URL)
                     profileSrc = imgPath;
+                  } else if (imgPath.startsWith("/")) {
+                    // Local public asset or absolute path
+                    profileSrc = imgPath;
                   } else if (imgPath.startsWith("/uploads/")) {
                     // Path starting with /uploads/
                     profileSrc = `${BASE_URL.replace(/\/api\/?$/, "")}${imgPath}`;
@@ -143,7 +146,7 @@ const RecentRegistrationsSection = () => {
                     // Path starting with uploads/ (no leading slash)
                     profileSrc = `${BASE_URL.replace(/\/api\/?$/, "")}/${imgPath}`;
                   } else {
-                    // Just filename or relative path (e.g., "uploads/profile_123.jpg" or "profile_123.jpg")
+                    // Just filename or relative path
                     const filename = imgPath.includes("/") ? imgPath.split("/").pop() : imgPath;
                     profileSrc = `${UPLOADS_BASE}/${filename}`;
                   }

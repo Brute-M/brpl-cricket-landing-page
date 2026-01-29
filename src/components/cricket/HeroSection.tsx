@@ -110,15 +110,15 @@ const HeroSection = () => {
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
               className="w-full max-w-xl md:max-w-7xl mx-auto rounded-2xl bg-black/35 backdrop-blur-md px-2 py-2 md:px-6 md:py-4 border"
             >
-              <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-x-2 md:gap-x-2 gap-y-1 w-full px-2">
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-0">
-                  <h2 className="text-sm md:text-xl lg:text-2xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase whitespace-nowrap">
+              <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-x-2 md:gap-x-2 gap-y-2 w-full px-2">
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-x-2 gap-y-1 sm:gap-y-0">
+                  <h2 className="text-xs sm:text-sm md:text-xl lg:text-2xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase whitespace-nowrap">
                     INDIA'S BIGGEST
                   </h2>
-                  <h1 className="text-lg md:text-3xl lg:text-5xl font-black italic text-[#FACC15] leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase whitespace-nowrap">
+                  <h1 className="text-base sm:text-lg md:text-3xl lg:text-5xl font-black italic text-[#FACC15] leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase whitespace-nowrap">
                     T10 TENNIS BALL
                   </h1>
-                  <h2 className="text-sm md:text-xl lg:text-2xl font-black italic text-[#FACC15] leading-none drop-shadow-lg uppercase whitespace-nowrap">
+                  <h2 className="text-xs sm:text-sm md:text-xl lg:text-2xl font-black italic text-[#FACC15] leading-none drop-shadow-lg uppercase whitespace-nowrap">
                     CRICKET TOURNAMENT
                   </h2>
                 </div>
@@ -126,11 +126,11 @@ const HeroSection = () => {
                 {/* Separator for desktop */}
                 <div className="hidden md:block h-8 w-0.5 bg-white/30 mx-1"></div>
 
-                <div className="text-[11px] md:text-sm lg:text-lg font-black leading-snug drop-shadow-md md:whitespace-nowrap flex flex-wrap justify-center md:justify-start items-center gap-x-1.5 gap-y-0.5 mt-2 md:mt-0">
+                <div className="w-full md:w-auto text-[10px] md:text-sm lg:text-lg font-black leading-snug drop-shadow-md md:whitespace-nowrap flex flex-wrap justify-center md:justify-start items-center gap-x-1.5 gap-y-0.5 mt-1 md:mt-0">
                   <span className="text-white">Your Gully Cricket Days </span>
                   <span className="text-[#FACC15] uppercase">ARE OVER</span>
                   <span className="text-white hidden md:inline">-</span>
-                  <span className="text-white">Now Play in Real Stadiums</span>
+                  <span className="text-white mt-0.5 md:mt-0">Now Play in Real Stadiums</span>
                 </div>
               </div>
             </motion.div>
