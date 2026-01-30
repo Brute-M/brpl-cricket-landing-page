@@ -41,7 +41,7 @@ const RecentRegistrationsSection = () => {
   const fetchRecentUsers = async () => {
     try {
       setHasFetchError(false);
-      const response = await fetch(`${API_BASE_URL}/users?page=1&limit=5&t=${Date.now()}`);
+      const response = await fetch(`${API_BASE_URL}/api/users?page=1&limit=5&t=${Date.now()}`);
       const data = await response.json();
 
       if (response.ok && Array.isArray(data.items)) {
@@ -183,7 +183,11 @@ const RecentRegistrationsSection = () => {
                               }}
                             />
                           ) : (
-                            <User className="w-8 h-8 text-white/40" />
+                            <img
+                              src="/dummy_player.png"
+                              alt="Default Player"
+                              className="w-full h-full object-cover opacity-80"
+                            />
                           )}
                         </div>
                       </div>

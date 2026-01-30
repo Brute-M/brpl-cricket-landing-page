@@ -1,4 +1,4 @@
-import { Upload } from 'lucide-react';
+import { Upload, MapPin } from 'lucide-react';
 
 interface BRPLShareCardProps {
   userName: string;
@@ -52,14 +52,16 @@ const BRPLShareCard = ({ userName, city, userImage, onImageUpload }: BRPLShareCa
           </div>
 
           {/* User Image (Middle-Bottom) */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[75%] flex items-end justify-center overflow-hidden pointer-events-none">
+          <div className="absolute bottom-0 left-0 w-full h-[75%] flex items-end justify-center overflow-hidden pointer-events-none z-0">
             {userImage ? (
-              <img
-                src={userImage}
-                alt={userName}
-                className="h-full w-auto object-cover object-bottom"
-                style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
-              />
+              <div className="relative w-full h-full flex items-end justify-center">
+                <img
+                  src={userImage}
+                  alt={userName}
+                  className="h-full w-auto object-cover object-bottom"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+              </div>
             ) : (
               // Placeholder if no image
               <div className="h-full w-2/3 bg-gray-600/30 backdrop-blur-sm border-2 border-white/20 rounded-t-3xl flex items-center justify-center pointer-events-auto cursor-pointer group-hover:bg-gray-600/40 transition-colors" onClick={() => document.getElementById('image-upload')?.click()}>
@@ -72,7 +74,7 @@ const BRPLShareCard = ({ userName, city, userImage, onImageUpload }: BRPLShareCa
           </div>
 
           {/* Bottom Overlays */}
-          <div className="mt-auto w-full flex flex-col items-center pb-0">
+          <div className="relative z-10 mt-auto w-full flex flex-col items-center pb-0">
 
             {/* Strip: One Step Closer */}
             <div className="w-full bg-gradient-to-r from-transparent via-black/80 to-transparent py-1 backdrop-blur-sm mb-1">
@@ -85,12 +87,8 @@ const BRPLShareCard = ({ userName, city, userImage, onImageUpload }: BRPLShareCa
             <div className="flex flex-col items-center gap-0.5 mb-1 bg-black/40 p-2 rounded-xl backdrop-blur-md border border-white/10 w-[90%]">
               <h3 className="text-white text-lg font-bold uppercase tracking-wide leading-none">{userName}</h3>
 
-              <div className="flex items-center gap-1.5">
-                <div className="text-[#FACC15]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
-                    <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                  </svg>
-                </div>
+              <div className="flex items-center justify-center gap-1.5 mt-1">
+                <MapPin className="w-3.5 h-3.5 text-[#FACC15]" />
                 <p className="text-gray-200 text-xs font-medium uppercase">
                   {city}
                 </p>

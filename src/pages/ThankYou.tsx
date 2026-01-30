@@ -352,14 +352,16 @@ const ThankYou = () => {
                         <div className="flex flex-col gap-6">
                             {/* Share Card Preview */}
                             <div className="flex justify-center">
-                                <div ref={cardRef} className="w-full flex justify-center transform scale-95 hover:scale-100 transition-transform duration-300">
-                                    <BRPLShareCard
-                                        userName={name}
-                                        userRole={role}
-                                        city={state?.city || "Patna"}
-                                        userImage={userImage}
-                                        onImageUpload={() => { }}
-                                    />
+                                <div className="w-full flex justify-center transform scale-95 hover:scale-100 transition-transform duration-300">
+                                    <div ref={cardRef}>
+                                        <BRPLShareCard
+                                            userName={name}
+                                            userRole={role}
+                                            city={state?.city || "Patna"}
+                                            userImage={userImage}
+                                            onImageUpload={() => { }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

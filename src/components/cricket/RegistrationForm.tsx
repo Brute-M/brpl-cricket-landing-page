@@ -826,7 +826,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                         <CreditCard className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="text-xl font-bold mb-2 text-white">Registration Fee</h3>
-                      <p className="text-3xl font-bold text-[#FACC15] mb-1">₹1,499.00</p>
+                      <p className="text-3xl font-bold text-[#FACC15] mb-1">₹1,499</p>
                       <p className="text-sm text-gray-300">One-time registration fee</p>
                     </div>
 
