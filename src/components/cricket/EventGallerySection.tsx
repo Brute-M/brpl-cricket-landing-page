@@ -6,8 +6,8 @@ import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 const images = [
-  { src: 'collarge1.png' },
-  { src: 'collarge2.png' },
+  { src: 'https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/collarge1.png' },
+  { src: 'https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/collarge2.png' },
 ];
 
 const EventGallerySection = () => {

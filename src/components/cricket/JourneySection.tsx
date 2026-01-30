@@ -6,7 +6,7 @@ const steps = [
         icon: <Video className="w-6 h-6 text-[#263574]" />,
         title: 'Record Your Skills',
         description: 'Batting, Bowling, Wicket-keeping. One video. From your ground, street, or terrace.',
-        note: '(No fancy equipment needed. Just your raw talent.)',
+        // note: '(No fancy equipment needed. Just your raw talent.)',
         color: 'bg-red-500'
     },
     {
@@ -90,11 +90,11 @@ const JourneySection = () => {
                                     {step.description}
                                 </p>
 
-                                {step.note && (
+                                {/* {step.note && (
                                     <p className="text-gray-400 text-sm italic font-bold">
                                         {step.note}
                                     </p>
-                                )}
+                                )} */}
                             </div>
                         </motion.div>
                     ))}

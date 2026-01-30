@@ -12,7 +12,8 @@ const backgroundImages = [
   "akash-banner.png",
   "manoj-banner1.png",
   "manoj-banner2.png",
-  "pawan-image.png"
+  "pawan-image.png",
+  "mikkail-image.png"
 ];
 
 const HeroSection = () => {
@@ -70,13 +71,13 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex flex-col md:flex md:items-center md:justify-center overflow-x-hidden bg-[#0e0e49] pt-[120px] md:pt-0">
       {/* Background Image Slider */}
-      <div className="relative w-full h-[50vh] md:absolute md:inset-0 md:h-full overflow-hidden bg-[#0e0e49] shrink-0">
+      <div className="relative w-full h-[280px] sm:h-[600px] md:h-full md:absolute md:inset-0 md:w-full overflow-hidden bg-[#0e0e49] shrink-0">
         <AnimatePresence mode="popLayout">
           <motion.img
             key={currentImageIndex}
             src={backgroundImages[currentImageIndex]}
             alt="Cricket Banner"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-contain md:object-cover object-top"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -89,51 +90,27 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full container mx-auto px-4 pt-8 md:py-12">
+      <div className="relative z-10 w-full container mx-auto px-0 md:px-4 pt-0 md:py-12">
         {/* Title and Subtitle at Top (Centered) */}
-        <div className="text-center text-white mt-12 md:mt-24 mb-8 sm:mb-10 select-none w-full">
+        <div className="text-center text-white mt-0 md:mt-24 mb-8 sm:mb-5 select-none w-full">
           <div className="mb-4 animate-in fade-in slide-in-from-top-4 duration-700">
-            <motion.div
-              initial={{ boxShadow: '0 0 0px rgba(250, 204, 21, 0.0)', borderColor: 'rgba(250, 204, 21, 0.45)' }}
-              animate={{
-                boxShadow: [
-                  '0 0 0px rgba(250, 204, 21, 0.0)',
-                  '0 0 18px rgba(250, 204, 21, 0.55)',
-                  '0 0 0px rgba(250, 204, 21, 0.0)',
-                ],
-                borderColor: [
-                  'rgba(250, 204, 21, 0.35)',
-                  'rgba(250, 204, 21, 0.9)',
-                  'rgba(250, 204, 21, 0.35)',
-                ],
-              }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-full max-w-xl md:max-w-7xl mx-auto rounded-2xl bg-black/35 backdrop-blur-md px-2 py-2 md:px-6 md:py-4 border"
+            <div
+              className="w-full max-w-xl md:max-w-7xl mx-auto px-2 py-2 md:px-6 md:py-4"
             >
-              <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-x-2 md:gap-x-2 gap-y-2 w-full px-2">
-                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-x-2 gap-y-1 sm:gap-y-0">
-                  <h2 className="text-xs sm:text-sm md:text-xl lg:text-2xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase whitespace-nowrap">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-x-2 md:gap-x-2 gap-y-2 w-full px-2">
+                <div className="flex flex-row items-center justify-center gap-x-2 gap-y-1 sm:gap-y-0">
+                  <h2 className="text-sm sm:text-base md:text-2xl lg:text-3xl font-black italic text-white leading-none tracking-tight drop-shadow-lg uppercase whitespace-nowrap">
                     INDIA'S BIGGEST
                   </h2>
-                  <h1 className="text-base sm:text-lg md:text-3xl lg:text-5xl font-black italic text-[#FACC15] leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase whitespace-nowrap">
+                  <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl font-black italic text-[#FACC15] leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] uppercase whitespace-nowrap">
                     T10 TENNIS BALL
                   </h1>
-                  <h2 className="text-xs sm:text-sm md:text-xl lg:text-2xl font-black italic text-[#FACC15] leading-none drop-shadow-lg uppercase whitespace-nowrap">
+                  <h2 className="text-sm sm:text-base md:text-2xl lg:text-3xl font-black italic text-white leading-none drop-shadow-lg uppercase whitespace-nowrap">
                     CRICKET TOURNAMENT
                   </h2>
                 </div>
-
-                {/* Separator for desktop */}
-                <div className="hidden md:block h-8 w-0.5 bg-white/30 mx-1"></div>
-
-                <div className="w-full md:w-auto text-[10px] md:text-sm lg:text-lg font-black leading-snug drop-shadow-md md:whitespace-nowrap flex flex-wrap justify-center md:justify-start items-center gap-x-1.5 gap-y-0.5 mt-1 md:mt-0">
-                  <span className="text-white">Your Gully Cricket Days </span>
-                  <span className="text-[#FACC15] uppercase">ARE OVER</span>
-                  <span className="text-white hidden md:inline">-</span>
-                  <span className="text-white mt-0.5 md:mt-0">Now Play in Real Stadiums</span>
-                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 

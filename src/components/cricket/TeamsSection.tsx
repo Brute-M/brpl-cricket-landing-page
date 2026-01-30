@@ -5,27 +5,27 @@ import Autoplay from 'embla-carousel-autoplay';
 const teams = [
     {
         name: "North East Panthers",
-        logo: "1.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/1.png",
     },
     {
         name: "Central Strikers",
-        logo: "2.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/2.png",
     },
     {
         name: "Western Heroes",
-        logo: "3.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/3.png",
     },
     {
         name: "Northern Dabanggs",
-        logo: "4.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/4.png",
     },
     {
         name: "Southern Lions",
-        logo: "5.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/5.png",
     },
     {
         name: "Eastern Rhinos",
-        logo: "6.png",
+        logo: "https://brpl-public-uploads.s3.ap-south-1.amazonaws.com/6.png",
     }
 ];
 

@@ -5,6 +5,14 @@ import { User, Mail, Phone, Calendar, Target, Send, CheckCircle, CreditCard, Upl
 import { useToast } from '@/hooks/use-toast';
 import { toast as sonnerToast } from '@/components/ui/sonner';
 import { MapPin, Building2, Square, Swords, CircleDot, Shield, Zap, CloudUpload } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 interface RegistrationFormProps {
   isEmbedded?: boolean;
@@ -17,6 +25,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [formData, setFormData] = useState({
     role: '',
@@ -432,21 +441,12 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
           duration: 3000,
         });
 
-        // Left-side notification using Sonner
-        sonnerToast.success(`${formData.name} registered successfully!`, {
-          position: "bottom-left",
-        });
 
-        setTimeout(() => {
-          navigate('/thank-you', {
-            state: {
-              name: formData.name,
-              role: formData.role,
-              city: formData.city,
-              userImage: previewImage // Pass the local preview to thank you page
-            }
-          });
-        }, 1000);
+
+
+
+        setShowSuccessModal(true);
+
       } else {
         toast({
           variant: "destructive",
@@ -476,6 +476,18 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   };
 
   // Removed early return to allow modal overlay
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigate('/thank-you', {
+      state: {
+        name: formData.name,
+        role: formData.role,
+        city: formData.city,
+        userImage: previewImage
+      }
+    });
+  };
 
 
   return (
@@ -798,6 +810,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                       <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                     </button>
                   </motion.div>
+
                 )}
 
                 {step === 2 && (
@@ -1000,6 +1013,32 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         </div>
       </section >
 
+      {/* Success Modal */}
+      <Dialog open={showSuccessModal} onOpenChange={(open) => !open && handleCloseModal()}>
+        <DialogContent className="sm:max-w-md bg-white text-black border-2 border-[#263574]">
+          <DialogHeader>
+            <DialogTitle className="text-center text-2xl font-bold text-[#263574]">Registration Successful!</DialogTitle>
+            <DialogDescription className="text-center text-gray-600 text-base">
+              Welcome to the league, <span className="font-semibold text-[#263574]">{formData.name}</span>!
+              <br />
+              Your registration is complete.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center py-6">
+            <div className="bg-green-100 p-4 rounded-full">
+              <CheckCircle className="w-16 h-16 text-green-600" />
+            </div>
+          </div>
+          <DialogFooter className="sm:justify-center">
+            <button
+              onClick={handleCloseModal}
+              className="w-full sm:w-auto px-8 py-2.5 bg-[#263574] text-white rounded-lg hover:bg-[#1f2b5e] transition-colors font-bold tracking-wide shadow-lg"
+            >
+              CONTINUE
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

@@ -41,7 +41,7 @@ const RecentRegistrationsSection = () => {
   const fetchRecentUsers = async () => {
     try {
       setHasFetchError(false);
-      const response = await fetch(`${API_BASE_URL}/users?page=1&limit=5`);
+      const response = await fetch(`${API_BASE_URL}/users?page=1&limit=5&t=${Date.now()}`);
       const data = await response.json();
 
       if (response.ok && Array.isArray(data.items)) {
