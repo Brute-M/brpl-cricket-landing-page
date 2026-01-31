@@ -12,7 +12,7 @@ const backgroundImages = [
   "akash-banner.png",
   "manoj-banner1.png",
   "manoj-banner2.png",
-  "pawan-image.png",
+  "pawan-image1.png",
   "mikkail-image.png"
 ];
 
