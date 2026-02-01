@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 
 // Using local backend for dev, ideally this comes from env
 // const BASE_URL = "http://localhost:5000";
-const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || " http://192.168.1.4:5000";
 
 export const TrackingHandler = () => {
     const [searchParams] = useSearchParams();

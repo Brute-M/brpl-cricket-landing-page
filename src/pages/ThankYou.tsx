@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { useToast } from '@/hooks/use-toast';
 import BRPLShareCard from '@/components/cricket/BRPLShareCard';
+import { RECENT_RAZORPAY_RESPONSE_KEY } from '@/lib/constants';
 
 const ThankYou = () => {
     const { state } = useLocation();
@@ -17,7 +18,7 @@ const ThankYou = () => {
     const name = state?.name || "Player";
     const role = state?.role || "Cricketer";
     // const BASE_URL = "http://localhost:5000";
-    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
+    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || " http://192.168.1.4:5000";
 
     useEffect(() => {
         // Meta Pixel Event Code
@@ -30,12 +31,18 @@ const ThankYou = () => {
 
         // Google Tag Event Code
         if (typeof window !== 'undefined' && (window as any).gtag) {
+            const recentRazorpayResponse = sessionStorage.getItem(RECENT_RAZORPAY_RESPONSE_KEY);
+            const recentRazorpayResponseData = recentRazorpayResponse ? JSON.parse(recentRazorpayResponse) : null;
+
             (window as any).gtag('event', 'conversion', {
                 'send_to': 'AW-17833167035/AYJgCLXYvuwbELuRwrdC',
                 'value': 1499.0,
                 'currency': 'INR',
-                'transaction_id': ''
+                'transaction_id': recentRazorpayResponseData?.razorpay_payment_id || '',
             });
+
+            // cleanup for nextpayment in-case user do
+            sessionStorage.removeItem(RECENT_RAZORPAY_RESPONSE_KEY);
         }
     }, []);
 

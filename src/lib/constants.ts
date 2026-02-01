@@ -1,0 +1,1 @@
+export const RECENT_RAZORPAY_RESPONSE_KEY = 'recent_razorpay_response'

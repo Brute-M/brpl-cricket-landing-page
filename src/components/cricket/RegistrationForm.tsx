@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { RECENT_RAZORPAY_RESPONSE_KEY } from '@/lib/constants';
 
 interface RegistrationFormProps {
   isEmbedded?: boolean;
@@ -54,7 +55,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   // const BASE_URL = "http://localhost:5000";
-  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || " http://192.168.1.4:5000";
 
 
   const roles = ['Batsman', 'Bowler', 'Wicket Keeper', 'All-Rounder'];
@@ -281,7 +282,8 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
       // 2. Open Razorpay Options
       const options = {
-        key: "rzp_live_RsBsR05m5SGbtT", // Should ideally come from backend or env
+        key: "rzp_live_RsBsR05m5SGbtT",
+        // key: "rzp_test_h7fC45pYvbeKRH", // Should ideally come from backend or env
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Beyond Reach Premier League",
@@ -312,6 +314,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                 paymentAmount: verifyData.amount || 1499 // Fallback to 1499 if not returned
               }));
               setStep(3); // Move to Step 3
+
+              // storing for later user
+              sessionStorage.setItem(RECENT_RAZORPAY_RESPONSE_KEY, JSON.stringify(response));
             } else {
               toast({
                 variant: "destructive",
