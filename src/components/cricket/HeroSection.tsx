@@ -23,7 +23,7 @@ const HeroSection = () => {
   const [copied, setCopied] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   // const BASE_URL = "http://localhost:5000/api";
-  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || " http://192.168.1.4:5000";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api ";
 
   useEffect(() => {
     const interval = setInterval(() => {

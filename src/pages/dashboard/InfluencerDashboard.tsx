@@ -10,7 +10,7 @@ const InfluencerDashboard = () => {
     const [totalReferrals, setTotalReferrals] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     // const BASE_URL = "http://localhost:5000";
-    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || " http://192.168.1.4:5000";
+    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api ";
 
     useEffect(() => {
         const token = localStorage.getItem("_auth_token");
