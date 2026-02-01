@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { RECENT_RAZORPAY_RESPONSE_KEY } from '@/lib/constants';
+import { RECENT_RAZORPAY_ORDER_ID_KEY, RECENT_RAZORPAY_RESPONSE_KEY, RECENT_USER_FORM_DATA_KEY } from '@/lib/constants';
 
 interface RegistrationFormProps {
   isEmbedded?: boolean;
@@ -74,6 +74,8 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     if (ref) {
       setFormData(prev => ({ ...prev, referralCodeUsed: ref }));
     }
+
+    checkAndResumeStep();
   }, []);
 
   /*
@@ -84,6 +86,37 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     }
   }, []);
   */
+
+  const resumePayment = async () => {
+    const recentOrderId = localStorage.getItem(RECENT_RAZORPAY_ORDER_ID_KEY);
+    if (!recentOrderId) return;
+
+    const response = await fetch(`${BASE_URL}/api/payment/order/${recentOrderId}`, {
+      headers: { "ngrok-skip-browser-warning": "true" }
+    });
+    const { data } = await response.json();
+
+    if (response.ok && data.status === 'paid') {
+      setStep(3);
+    } else {
+      setStep(2);
+    }
+  }
+
+  const refillUserFormData = () => {
+    const recentFormData = localStorage.getItem(RECENT_USER_FORM_DATA_KEY);
+    if (!recentFormData) return;
+    setFormData(JSON.parse(recentFormData));
+  }
+
+  const checkAndResumeStep = () => {
+    try {
+      resumePayment();
+      refillUserFormData();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleNext = () => {
     if (step === 1) {
@@ -113,6 +146,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         return;
       }
       setStep(isAlreadyPaid ? 3 : step + 1);
+
+      localStorage.setItem(RECENT_USER_FORM_DATA_KEY, JSON.stringify(formData));
+
     } else if (step === 2) {
       setStep(step + 1);
     } else {
@@ -138,7 +174,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     try {
       const response = await fetch(`${BASE_URL}/auth/send-otp`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
         body: JSON.stringify({ mobile: formData.phone, checkExisting: true }),
       });
       const data = await response.json();
@@ -181,7 +217,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     try {
       const response = await fetch(`${BASE_URL}/auth/verify-otp`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
         body: JSON.stringify({ mobile: formData.phone, otp: formData.otp }),
       });
       const data = await response.json();
@@ -271,7 +307,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
       // 1. Create Order
       const orderResponse = await fetch(`${BASE_URL}/api/payment/order-landing`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
         body: JSON.stringify({ amount: 1499 }), // Amount in INR
       });
       const orderData = await orderResponse.json();
@@ -282,8 +318,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
 
       // 2. Open Razorpay Options
       const options = {
-        key: "rzp_live_RsBsR05m5SGbtT",
-        // key: "rzp_test_h7fC45pYvbeKRH", // Should ideally come from backend or env
+        key: import.meta.env.VITE_RAZORPAY_KEY,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Beyond Reach Premier League",
@@ -294,7 +329,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
           try {
             const verifyResponse = await fetch(`${BASE_URL}/api/payment/verify-landing`, {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "true" },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -349,6 +384,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         },
       };
 
+      // storing to maintainng flow
+      localStorage.setItem(RECENT_RAZORPAY_ORDER_ID_KEY, orderData.id);
+
       const paymentObject = new (window as any).Razorpay(options);
       paymentObject.open();
 
@@ -397,6 +435,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify(payload),
       });
@@ -419,6 +458,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                 method: 'POST',
                 headers: {
                   'Authorization': `Bearer ${result.data.token}`,
+                  "ngrok-skip-browser-warning": "true",
                 },
                 body: formDataImage,
               });
@@ -831,7 +871,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                         <CreditCard className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="text-xl font-bold mb-2 text-white">Registration Fee</h3>
-                      <p className="text-3xl font-bold text-[#FACC15] mb-1">₹1,499</p>
+                      <p className="text-3xl font-bold text-[#FACC15] mb-1">₹1499</p>
                       <p className="text-sm text-gray-300">One-time registration fee</p>
                     </div>
 

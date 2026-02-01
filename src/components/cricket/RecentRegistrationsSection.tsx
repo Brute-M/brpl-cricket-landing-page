@@ -150,8 +150,6 @@ const RecentRegistrationsSection = () => {
                     const filename = imgPath.includes("/") ? imgPath.split("/").pop() : imgPath;
                     profileSrc = `${UPLOADS_BASE}/${filename}`;
                   }
-                  // Debug logging (remove in production)
-                  console.log(`Profile image for ${fullName}:`, { imgPath, profileSrc });
                 }
 
                 return (
