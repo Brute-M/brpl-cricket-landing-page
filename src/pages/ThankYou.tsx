@@ -18,7 +18,7 @@ const ThankYou = () => {
     const name = state?.name || "Player";
     const role = state?.role || "Cricketer";
     // const BASE_URL = "http://localhost:5000";
-    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api ";
+    const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
     useEffect(() => {
         // Meta Pixel Event Code

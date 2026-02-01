@@ -55,7 +55,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   // const BASE_URL = "http://localhost:5000";
-  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api ";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
 
   const roles = ['Batsman', 'Bowler', 'Wicket Keeper', 'All-Rounder'];

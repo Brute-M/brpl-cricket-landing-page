@@ -44,7 +44,7 @@ const CoachRegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // const BASE_URL = "http://localhost:5000";
-  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api ";
+  const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
   const imagePreviewUrl = useMemo(() => {
     if (!coachImage) return null;
