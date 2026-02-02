@@ -69,10 +69,13 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
     "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
+  const [isRefLocked, setIsRefLocked] = useState(false);
+
   useEffect(() => {
     const ref = localStorage.getItem('brpl_ref_code');
     if (ref) {
       setFormData(prev => ({ ...prev, referralCodeUsed: ref }));
+      setIsRefLocked(true);
     }
 
     checkAndResumeStep();
@@ -529,7 +532,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         name: formData.name,
         role: formData.role,
         city: formData.city,
-        userImage: previewImage
+        userImage: previewImage,
+        email: formData.email,
+        phone: formData.phone
       }
     });
   };
@@ -990,8 +995,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             name="referralCodeUsed"
                             value={formData.referralCodeUsed}
                             onChange={handleChange}
+                            disabled={isRefLocked}
                             placeholder="Enter referral code if you have"
-                            className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
+                            className={`w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900 ${isRefLocked ? 'opacity-70 cursor-not-allowed bg-gray-100' : ''}`}
                           />
                         </div>
                       </div>

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import CreateCoachForm from './CreateCoachForm';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const AdminDashboard = () => {
     const limit = 10;
     // const BASE_URL = "http://localhost:5000";
     const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
+    const [view, setView] = useState<'dashboard' | 'create-coach'>('dashboard');
 
     useEffect(() => {
         const token = localStorage.getItem("_admin_token");
@@ -251,13 +253,19 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="mt-8 space-y-2">
-                        <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/10">
+                        <div
+                            onClick={() => setView('dashboard')}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${view === 'dashboard' ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'}`}
+                        >
                             <BarChart3 className="h-4 w-4 text-white/80" />
                             <div className="text-sm">Dashboard</div>
                         </div>
-                        <div className="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70">
-                            <Database className="h-4 w-4" />
-                            <div className="text-sm">Records</div>
+                        <div
+                            onClick={() => setView('create-coach')}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${view === 'create-coach' ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'}`}
+                        >
+                            <Users className="h-4 w-4" />
+                            <div className="text-sm">Create Coach</div>
                         </div>
                     </div>
                 </div>
@@ -304,20 +312,28 @@ const AdminDashboard = () => {
                 </header>
 
                 <main className="p-6 max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                            <div className="text-sm text-white/60 font-medium">Landing Page Players</div>
-                            <div className="text-3xl font-extrabold mt-2">{stats?.totalUsers || 0}</div>
+                    {view === 'create-coach' ? (
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mx-auto">
+                            <CreateCoachForm token={localStorage.getItem("_admin_token") || ''} />
                         </div>
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                            <div className="text-sm text-white/60 font-medium">Registered Coaches</div>
-                            <div className="text-3xl font-extrabold text-blue-200 mt-2">{stats?.totalCoaches || 0}</div>
-                        </div>
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                            <div className="text-sm text-white/60 font-medium">Influencers</div>
-                            <div className="text-3xl font-extrabold text-purple-200 mt-2">{stats?.totalInfluencers || 0}</div>
-                        </div>
-                    </div>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="text-sm text-white/60 font-medium">Landing Page Players</div>
+                                    <div className="text-3xl font-extrabold mt-2">{stats?.totalUsers || 0}</div>
+                                </div>
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="text-sm text-white/60 font-medium">Registered Coaches</div>
+                                    <div className="text-3xl font-extrabold text-blue-200 mt-2">{stats?.totalCoaches || 0}</div>
+                                </div>
+                                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                                    <div className="text-sm text-white/60 font-medium">Influencers</div>
+                                    <div className="text-3xl font-extrabold text-purple-200 mt-2">{stats?.totalInfluencers || 0}</div>
+                                </div>
+                            </div>
+                        </>
+                    )}
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-gray-900">

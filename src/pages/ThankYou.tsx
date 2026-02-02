@@ -20,9 +20,20 @@ const ThankYou = () => {
     // const BASE_URL = "http://localhost:5000";
     const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
 
+    const email = state?.email;
+    const phone = state?.phone;
+
     useEffect(() => {
         // Meta Pixel Event Code
         if (typeof window !== 'undefined' && (window as any).fbq) {
+            // Advanced Matching
+            if (email || phone) {
+                (window as any).fbq('init', '3891680841130219', {
+                    em: email,
+                    ph: phone
+                });
+            }
+
             (window as any).fbq('track', 'CompleteRegistration', {
                 value: 1499,
                 currency: 'INR',
