@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart3, Database, LogOut, Search, ShieldCheck, Users } from 'lucide-react';
+import { BarChart3, Database, LogOut, Search, ShieldCheck, Users, Image as ImageIcon } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import CreateCoachForm from './CreateCoachForm';
+import GeneratePostModal from './GeneratePostModal';
+import CustomPostGeneratorModal from './CustomPostGeneratorModal';
+
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -21,7 +24,10 @@ const AdminDashboard = () => {
     const limit = 10;
     // const BASE_URL = "http://localhost:5000";
     const BASE_URL = import.meta.env.VITE_LANDING_PAGE_BASE_URL || "https://brpl.net/api";
-    const [view, setView] = useState<'dashboard' | 'create-coach'>('dashboard');
+    const [view, setView] = useState<'dashboard' | 'create-coach' | 'generate-post'>('dashboard');
+    const [selectedUserForPost, setSelectedUserForPost] = useState<any>(null);
+    const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+    const [isCustomPostModalOpen, setIsCustomPostModalOpen] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("_admin_token");
@@ -167,6 +173,21 @@ const AdminDashboard = () => {
                     </span>
                 )}
             </td>
+            {type === 'user' && (
+                <td className="p-4">
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs h-7"
+                        onClick={() => {
+                            setSelectedUserForPost(item);
+                            setIsPostModalOpen(true);
+                        }}
+                    >
+                        Generate Post
+                    </Button>
+                </td>
+            )}
             <td className="p-4 text-gray-400 text-xs">
                 {new Date(item.createdAt).toLocaleDateString()}
             </td>
@@ -267,6 +288,18 @@ const AdminDashboard = () => {
                             <Users className="h-4 w-4" />
                             <div className="text-sm">Create Coach</div>
                         </div>
+                        <div
+                            onClick={() => {
+                                setView('generate-post');
+                                setActiveTab('users');
+                                setPage(1);
+                                setSearch('');
+                            }}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors ${view === 'generate-post' ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'}`}
+                        >
+                            <ImageIcon className="h-4 w-4" />
+                            <div className="text-sm">Post Generator</div>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -315,6 +348,115 @@ const AdminDashboard = () => {
                     {view === 'create-coach' ? (
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mx-auto">
                             <CreateCoachForm token={localStorage.getItem("_admin_token") || ''} />
+                        </div>
+                    ) : view === 'generate-post' ? (
+                        <div className="space-y-6">
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-bold text-[#263574] flex items-center gap-2">
+                                        <ImageIcon className="w-5 h-5" />
+                                        Generate Posts
+                                    </h2>
+                                    <Button
+                                        onClick={() => setIsCustomPostModalOpen(true)}
+                                        className="bg-[#263574] text-white hover:bg-[#1f2d5f]"
+                                    >
+                                        Create Custom Post
+                                    </Button>
+                                </div>
+                                <p className="text-gray-500 mb-6">Search for a player to generate their official BRPL share card.</p>
+
+                                <div className="relative mb-6">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <Input
+                                        value={search}
+                                        onChange={(e) => {
+                                            setPage(1);
+                                            setSearch(e.target.value);
+                                        }}
+                                        placeholder="Search player by name, email or mobile..."
+                                        className="pl-9 bg-gray-50 border-gray-200 text-gray-900 placeholder:text-gray-400 w-full md:w-96"
+                                    />
+                                </div>
+
+                                <div className="border rounded-xl collapse-border overflow-hidden">
+                                    <table className="w-full text-left">
+                                        <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold">
+                                            <tr>
+                                                <th className="p-4">Player</th>
+                                                <th className="p-4">Contact</th>
+                                                <th className="p-4">City</th>
+                                                <th className="p-4 text-right">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100">
+                                            {loadingTable ? (
+                                                <tr>
+                                                    <td colSpan={4} className="p-8 text-center text-gray-500">Loading players...</td>
+                                                </tr>
+                                            ) : items.length === 0 ? (
+                                                <tr>
+                                                    <td colSpan={4} className="p-8 text-center text-gray-500">No players found matching your search.</td>
+                                                </tr>
+                                            ) : (
+                                                items.map((item: any) => (
+                                                    <tr key={item._id} className="hover:bg-gray-50 transition-colors">
+                                                        <td className="p-4">
+                                                            <div className="font-medium text-gray-900">{item.fname} {item.lname}</div>
+                                                            <div className="text-xs text-gray-500">{item.playerRole}</div>
+                                                        </td>
+                                                        <td className="p-4 text-sm text-gray-600">
+                                                            <div>{item.email}</div>
+                                                            <div className="text-xs">{item.mobile}</div>
+                                                        </td>
+                                                        <td className="p-4 text-sm text-gray-600">
+                                                            {item.city || '-'}
+                                                        </td>
+                                                        <td className="p-4 text-right">
+                                                            <Button
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    setSelectedUserForPost(item);
+                                                                    setIsPostModalOpen(true);
+                                                                }}
+                                                                className="bg-[#263574] text-white hover:bg-[#1f2d5f]"
+                                                            >
+                                                                Generate Card
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Pagination - Reuse logic */}
+                                <div className="my-4 flex items-center justify-between">
+                                    <div className="text-sm text-gray-500">
+                                        Page <span className="font-medium text-gray-900">{pagination?.page || 1}</span> of{' '}
+                                        <span className="font-medium text-gray-900">{pagination?.pages || 1}</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setPage((p) => Math.max(1, p - 1))}
+                                            disabled={(pagination?.page || 1) <= 1 || loadingTable}
+                                        >
+                                            Prev
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setPage((p) => (pagination?.pages ? Math.min(pagination.pages, p + 1) : p + 1))}
+                                            disabled={!!pagination && (pagination.page >= pagination.pages) || loadingTable}
+                                        >
+                                            Next
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ) : (
                         <>
@@ -428,6 +570,7 @@ const AdminDashboard = () => {
                                                             {t === 'users' && <th className="p-4">Role</th>}
                                                             {t === 'users' && <th className="p-4">Paid Amount</th>}
                                                             <th className="p-4">Info</th>
+                                                            {t === 'users' && <th className="p-4">Action</th>}
                                                             <th className="p-4">Joined</th>
                                                         </>
                                                     )}
@@ -455,7 +598,7 @@ const AdminDashboard = () => {
                                             <tbody>
                                                 {loadingTable && (
                                                     <tr>
-                                                        <td colSpan={t === 'users' ? 7 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">Loading...</td>
+                                                        <td colSpan={t === 'users' ? 8 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">Loading...</td>
                                                     </tr>
                                                 )}
 
@@ -475,7 +618,7 @@ const AdminDashboard = () => {
 
                                                 {!loadingTable && items.length === 0 && (
                                                     <tr>
-                                                        <td colSpan={t === 'users' ? 7 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">No records found</td>
+                                                        <td colSpan={t === 'users' ? 8 : t === 'traffic' ? 6 : t === 'coupons' ? 5 : 5} className="p-8 text-center text-gray-500">No records found</td>
                                                     </tr>
                                                 )}
                                             </tbody>
@@ -516,6 +659,22 @@ const AdminDashboard = () => {
                     </div>
                 </main>
             </div >
+            {selectedUserForPost && (
+                <GeneratePostModal
+                    isOpen={isPostModalOpen}
+                    onClose={() => {
+                        setIsPostModalOpen(false);
+                        setSelectedUserForPost(null);
+                    }}
+                    user={selectedUserForPost}
+                />
+            )}
+            {isCustomPostModalOpen && (
+                <CustomPostGeneratorModal
+                    isOpen={isCustomPostModalOpen}
+                    onClose={() => setIsCustomPostModalOpen(false)}
+                />
+            )}
         </div >
     );
 };
