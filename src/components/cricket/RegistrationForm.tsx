@@ -140,6 +140,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         });
         return;
       }
+      /*
       if (!isOtpVerified) {
         toast({
           title: "OTP Verification Required",
@@ -148,6 +149,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
         });
         return;
       }
+      */
       setStep(isAlreadyPaid ? 3 : step + 1);
 
       localStorage.setItem(RECENT_USER_FORM_DATA_KEY, JSON.stringify(formData));
@@ -724,19 +726,19 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                disabled={isOtpVerified}
+                                // disabled={isOtpVerified}
                                 required
                                 placeholder="Enter your mobile number"
                                 className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-r-lg focus:outline-none focus:border-[#263574] focus:ring-2 focus:ring-[#263574]/20 transition-all text-gray-900"
                               />
 
-                              {isOtpVerified && (
+                              {/* {isOtpVerified && (
                                 <CheckCircle className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
-                              )}
+                              )} */}
                             </div>
 
                           </div>
-                          {!isOtpVerified && (
+                          {/* {!isOtpVerified && (
                             <button
                               type="button"
                               onClick={handleSendOtp}
@@ -745,9 +747,9 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                             >
                               {isSendingOtp ? "Sending..." : isOtpSent ? "Sent" : "Send OTP"}
                             </button>
-                          )}
+                          )} */}
                         </div>
-                        {isOtpSent && !isOtpVerified && (
+                        {/* {isOtpSent && !isOtpVerified && (
                           <div className="mt-2 flex gap-2">
                             <input
                               type="text"
@@ -766,7 +768,7 @@ const RegistrationForm = ({ isEmbedded = false }: RegistrationFormProps) => {
                               {isVerifyingOtp ? "Verifying..." : "Verify"}
                             </button>
                           </div>
-                        )}
+                        )} */}
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
